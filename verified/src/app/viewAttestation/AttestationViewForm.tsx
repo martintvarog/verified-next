@@ -1,0 +1,254 @@
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { AttestationDataView } from "@/types/attestationData";
+import { useForm } from "react-hook-form";
+
+type Props = {
+  attestation: AttestationDataView;
+};
+
+const AttestationViewForm = ({ attestation }: Props) => {
+  const attestationForm = useForm({
+    values: attestation ?? undefined,
+  });
+
+  return (
+    <Form {...attestationForm}>
+      <form className="space-y-6 w-full">
+        <FormField
+          control={attestationForm.control}
+          name="recipientAddress"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Recipient&apos;s address</FormLabel>
+              <FormControl>
+                <Input
+                  className="text-center text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md"
+                  readOnly={true}
+                  placeholder="shadcn"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                The address of the recipient of the attestation
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={attestationForm.control}
+          name="attester"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Attester&apos;s Address </FormLabel>
+              <FormControl>
+                <Input
+                  className="text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md text-center"
+                  readOnly={true}
+                  placeholder="shadcn"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                The address of the attester of the attestation
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={attestationForm.control}
+          name="time"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Created </FormLabel>
+              <FormControl>
+                <Input
+                  className="text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md text-center"
+                  readOnly={true}
+                  placeholder="shadcn"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                The timestamp of the attestation
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={attestationForm.control}
+          name="universityName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>University Name </FormLabel>
+              <FormControl>
+                <Input
+                  className="text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md text-center"
+                  readOnly={true}
+                  placeholder="shadcn"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>The name of the university</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={attestationForm.control}
+          name="facultyName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Faculty Name </FormLabel>
+              <FormControl>
+                <Input
+                  className="text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md text-center"
+                  readOnly={true}
+                  placeholder="shadcn"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>The name of the faculty</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={attestationForm.control}
+          name="programmeName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Programme Name </FormLabel>
+              <FormControl>
+                <Input
+                  className="text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md text-center"
+                  readOnly={true}
+                  placeholder="shadcn"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>The name of the programme</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={attestationForm.control}
+          name="typeName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Type Name </FormLabel>
+              <FormControl>
+                <Input
+                  className="text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md text-center"
+                  readOnly={true}
+                  placeholder="shadcn"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>The name of the type</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={attestationForm.control}
+          name="modeName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Mode Name </FormLabel>
+              <FormControl>
+                <Input
+                  className="text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md text-center"
+                  readOnly={true}
+                  placeholder="shadcn"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>The name of the mode</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={attestationForm.control}
+          name="academicYear"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Academic Year </FormLabel>
+              <FormControl>
+                <Input
+                  className="text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md text-center"
+                  readOnly={true}
+                  placeholder="shadcn"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                The academic year of the attestation
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={attestationForm.control}
+          name="uid"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>UID </FormLabel>
+              <FormControl>
+                <Input
+                  className="text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md text-center"
+                  readOnly={true}
+                  placeholder="shadcn"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>The UID of the attestation</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={attestationForm.control}
+          name="fileHash"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>File Hash </FormLabel>
+              <FormControl>
+                <Input
+                  className="text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md text-center"
+                  readOnly={true}
+                  placeholder="shadcn"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                The hash of the attached document
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </form>
+    </Form>
+  );
+};
+
+export default AttestationViewForm;

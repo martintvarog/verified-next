@@ -21,7 +21,7 @@ export default function RootLayout({
           <header className="sticky top-5">
             <NavBar />
           </header>
-          <main className="px-14 pt-14 pb-16 max-w-6xl mx-auto">
+          <main className="px-14 pt-14 pb-16 max-w-4xl mx-auto">
             {children}
           </main>
         </body>
