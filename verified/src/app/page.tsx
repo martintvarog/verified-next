@@ -58,7 +58,7 @@ export default function Home() {
                         {Array.from({length: 4}).map((_, index) => (
                             <CarouselItem key={index}>
                                 <div className="p-1">
-                                    <Card className="bg-gray-700">
+                                    <Card className="bg-gray-600">
                                         <CardContent className="flex aspect-square items-center justify-center p-6">
                                             <span className="text-4xl font-semibold"></span>
                                             <p className="text-xl font-semibold ml-2">{cardTexts[index]}</p>
