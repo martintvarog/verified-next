@@ -1,5 +1,6 @@
 import WalletService from "@/services/walletService";
 import {useRouter} from "next/navigation";
+import {Button} from "@/components/ui/button";
 
 
 const ConnectWalletButton = () => {
@@ -18,7 +19,7 @@ const ConnectWalletButton = () => {
 
     return (
         <div>
-            <button onClick={connectWallet}>Connect Wallet</button>
+            <Button onClick={connectWallet} className="px-4 py-2 text-lg">Connect Wallet</Button>
         </div>
 
     );
