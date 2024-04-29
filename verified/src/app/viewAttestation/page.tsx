@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { ethereumHashSchema } from "@/utils/ethereumHashSchema";
 import { mapValues } from "lodash";
+import { cn } from "@/lib/utils";
 
 const ViewAttestationPage = () => {
   const schema = z.object({
@@ -33,9 +34,11 @@ const ViewAttestationPage = () => {
     router.push(`/viewAttestation/${data.transactionUID}`);
   });
 
+  const isLoading = form.formState.isSubmitting || form.formState.isSubmitSuccessful;
+
   return (
     <Form {...form}>
-      <form className="w-full" onSubmit={submitTransactionUIDForm}>
+      <form className={cn("w-full", isLoading && "pointer-events-none")} onSubmit={submitTransactionUIDForm}>
         <FormField
           name="transactionUID"
           control={form.control}
@@ -50,7 +53,7 @@ const ViewAttestationPage = () => {
                     {...field}
                   />
                 </FormControl>
-                <Button type="submit" loading={form.formState.isSubmitting || form.formState.isSubmitted}>
+                <Button type="submit" loading={isLoading}>
                   View Attestation
                 </Button>
               </div>
