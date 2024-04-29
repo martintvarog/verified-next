@@ -4,8 +4,9 @@ import React from "react";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
-import { useSetSearchParam } from "@/utils/useSetSearchParam";
-import { AttestationNotFound } from "./page";
+import { AttestationInvalidUID } from "./[attestationUID]/page";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 type ErrorPageProps = {
   error: Error & { digest?: string };
@@ -13,27 +14,34 @@ type ErrorPageProps = {
 };
 
 const ViewAttestationError = ({ error, reset }: ErrorPageProps) => {
-  const setSearchParam = useSetSearchParam();
-
-  // Attestation not found error should reset the page after a bit
-  React.useEffect(() => {
-    if (!(error instanceof AttestationNotFound)) return;
-
-    const resetTO = setTimeout(() => {
-      setSearchParam("error", null);
-      reset();
-    }, 2000);
-    return () => {
-      clearTimeout(resetTO);
-    };
-  }, [error, reset, setSearchParam]);
+  let actions: React.ReactNode;
+  if (error instanceof AttestationInvalidUID) {
+    actions = (
+      <Link href="/createAttestation">
+        <Button variant="default">
+          View a different attestation
+        </Button>
+      </Link>
+    );
+  } else {
+    actions = (
+      <Button onClick={reset}>
+        Try again
+      </Button>
+    );
+  }
 
   return (
-    <Alert variant="destructive" className="max-w-6xl w-full">
-      <AlertCircle className="h-4 w-4" />
-      <AlertTitle>Error</AlertTitle>
-      <AlertDescription>{error.message}</AlertDescription>
-    </Alert>
+    <div className="self-center">
+      <Alert variant="destructive">
+        <AlertCircle className="h-4 w-4" />
+        <AlertTitle>Error</AlertTitle>
+        <AlertDescription>{error.message}</AlertDescription>
+      </Alert>
+      <div className="mt-4 self-center">
+        {actions}
+      </div>
+    </div>
   );
 };
 

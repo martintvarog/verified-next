@@ -20,7 +20,6 @@ import { mapValues } from "lodash";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useWalletConnected } from "@/utils/useWalletConnected";
-import { PulseLoader } from "react-spinners";
 import { toast } from "sonner";
 
 const Page = () => {
@@ -65,7 +64,7 @@ const Page = () => {
     console.log(data);
     const transactionUID = await attestationService.createAttestation(data);
     console.log(transactionUID);
-    router.push(`/viewAttestation?transactionUID=${transactionUID}`);
+    router.push(`/viewAttestation/${transactionUID}`);
   });
 
   const pathname = usePathname();

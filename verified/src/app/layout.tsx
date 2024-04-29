@@ -20,7 +20,7 @@ export default function RootLayout({
       <Providers>
         <body className={inter.className}>
           <NavBar />
-          <main className="px-14 pt-14 pb-16 max-w-4xl mx-auto">
+          <main className="px-14 pt-14 pb-16 max-w-4xl mx-auto flex flex-col">
             {children}
           </main>
           <Toaster />
