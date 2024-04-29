@@ -3,6 +3,7 @@ import "./globals.css";
 import NavBar from "@/components/Navbar";
 import { Providers } from "./Providers";
 import { PropsWithChildren } from "react";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,12 +19,11 @@ export default function RootLayout({
     <html lang="en">
       <Providers>
         <body className={inter.className}>
-          <header className="sticky top-5">
-            <NavBar />
-          </header>
+          <NavBar />
           <main className="px-14 pt-14 pb-16 max-w-4xl mx-auto">
             {children}
           </main>
+          <Toaster />
         </body>
       </Providers>
     </html>

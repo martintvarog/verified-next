@@ -5,7 +5,7 @@ import { AppBar, Toolbar } from "@mui/material";
 import { NavbarLink } from "./NavbarLink";
 
 const NavBar: React.FC = () => (
-  <AppBar position="static" style={{ backgroundColor: "#242424" }}>
+  <AppBar position="sticky" className="bg-[#242424]">
     <Toolbar
       className="flex justify-center space-x-4"
     >
