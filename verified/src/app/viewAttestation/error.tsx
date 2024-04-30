@@ -4,9 +4,9 @@ import React from "react";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
-import { AttestationInvalidUID } from "./[attestationUID]/page";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { AttestationError } from "./[attestationUID]/page";
 
 type ErrorPageProps = {
   error: Error & { digest?: string };
@@ -15,7 +15,7 @@ type ErrorPageProps = {
 
 const ViewAttestationError = ({ error, reset }: ErrorPageProps) => {
   let actions: React.ReactNode;
-  if (error instanceof AttestationInvalidUID) {
+  if (error instanceof AttestationError) {
     actions = (
       <Link href="/createAttestation">
         <Button variant="default">

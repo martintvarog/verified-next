@@ -18,11 +18,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useForm } from "react-hook-form";
 
-export class AttestationInvalidUID extends Error {
-  constructor() {
-    super("Invalid attestation UID");
-  }
-}
+export class AttestationError extends Error {}
 
 type PageProps = {
   params: {
@@ -32,13 +28,13 @@ type PageProps = {
 
 const AttestationViewPage = ({ params: { attestationUID } }: PageProps) => {
   if (!ethereumHashSchema.safeParse(attestationUID).success)
-    throw new AttestationInvalidUID();
+    throw new AttestationError("Invalid attestation UID");
 
   const { data: attestation } = useSuspenseQuery({
     queryKey: ["attestation", attestationUID],
     queryFn: () => {
       const attestation = attestationService.getAttestationView(attestationUID);
-      if (!attestation) throw new Error("Attestation not found");
+      if (!attestation) throw new AttestationError("Attestation not found");
       return attestation;
     },
   });
