@@ -36,7 +36,7 @@ export function InputFile({ onChange, className, name }: Props) {
       {displayAlert ? (
         <Alert
           variant="destructive"
-          className={cn(className, displayAlert && "fade")}
+          className={cn(displayAlert && "fade", className)}
         >
           <AlertCircle className="size-4" />
           <AlertTitle>Error</AlertTitle>
@@ -49,8 +49,9 @@ export function InputFile({ onChange, className, name }: Props) {
           id={id}
           name={name}
           className={cn(
+            "text-inherit bg-gray-800 block w-full shadow-sm rounded-md",
+            "focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500",
             className,
-            "text-inherit bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md",
           )}
           type="file"
           onChange={(e) => handleChange(e.target.files![0])}

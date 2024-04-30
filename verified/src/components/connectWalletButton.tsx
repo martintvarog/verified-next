@@ -41,7 +41,7 @@ const ConnectWalletButton = ({ className }: Props) => {
   return (
     <Button
       onClick={() => { connectWallet() }}
-      className={cn(className, "px-4 py-2 text-lg")}
+      className={cn("px-4 py-2 text-lg", className)}
       loading={walletConnecting}
     >
       Connect Wallet
