@@ -2,6 +2,8 @@ import {Attestation, EAS, SchemaDecodedItem, SchemaEncoder} from "@ethereum-atte
 import {EAS_CONTRACT_ADDRESS_SEPOLIA, SCHEMA, SCHEMA_UID} from "@/config/config";
 import {AttestationData, AttestationDataView} from "@/types/attestationData";
 import {ConfiguredEAS} from "@/services/configureEAS";
+import { AttestationError } from "@/utils/attestationError";
+import { identity } from "lodash/fp";
 
 
 const Schema = "string University_Name, string Faculty_Name, string Programme_Name, string Type_Name, string Mode_Name, string Academic_Year, string File_Hash";
@@ -40,31 +42,30 @@ const createAttestation = async (attestationData: AttestationData): Promise<stri
     }
 }
 
-const getAttestation = async (transactionUID: string): Promise<Attestation | undefined> => {
+const getAttestation = async (transactionUID: string): Promise<Attestation> => {
+  const eas = await ConfiguredEAS.configureEAS(false);
+  // Errors as values FTW
+  const attestation = await eas.getAttestation(transactionUID).catch(identity);
 
-    const eas = await ConfiguredEAS.configureEAS(false);
+  if (attestation instanceof Error) {
+    console.error(attestation);
+    throw new AttestationError("Something went wrong");
+  }
 
-    try {
-        return await eas.getAttestation(transactionUID);
-    } catch (e) {
-        console.error(e);
+  if (!attestation) throw new AttestationError("Attestation not found");
 
-        return undefined;
-    }
+  return attestation;
 }
 
-const getAttestationView = async (transactionUID: string): Promise<AttestationDataView | undefined> => {
-
+const getAttestationView = async (transactionUID: string): Promise<AttestationDataView> => {
     const attestation = await getAttestation(transactionUID);
     console.log(attestation)
-    if (!attestation || attestation.uid === "0x0000000000000000000000000000000000000000000000000000000000000000") {
-        return undefined;
-    }
+    if (attestation.uid === "0x0000000000000000000000000000000000000000000000000000000000000000") 
+      throw new AttestationError("Attestation not found");
 
-    const decodedSchema = decodeAttestationData(attestation!.data);
+    const decodedSchema = decodeAttestationData(attestation.data);
     console.log("Schema is decoded")
-    return mapAttestationData(attestation!, decodedSchema);
-
+    return mapAttestationData(attestation, decodedSchema);
 }
 
 const decodeAttestationData = (attestationData: string): SchemaDecodedItem[] => {

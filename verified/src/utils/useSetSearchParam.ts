@@ -13,7 +13,6 @@ export const useSetSearchParam = () => {
       `${pathname}?${newSearchParams.toString()}` as Parameters<
         typeof router.push
       >[0],
-      { shallow: true },
     );
   };
 };

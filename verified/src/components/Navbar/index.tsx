@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+
 import { AppBar, Toolbar } from "@mui/material";
 import { NavbarLink } from "./NavbarLink";
 import { Sixtyfour } from "next/font/google";

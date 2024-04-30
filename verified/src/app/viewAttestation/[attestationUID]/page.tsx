@@ -11,14 +11,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import attestationService from "@/services/attestationService";
-import { ethereumHashSchema } from "@/utils/ethereumHashSchema";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useAttestation } from "@/utils/useAttestation";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useForm } from "react-hook-form";
-
-export class AttestationError extends Error {}
 
 type PageProps = {
   params: {
@@ -27,17 +23,7 @@ type PageProps = {
 };
 
 const AttestationViewPage = ({ params: { attestationUID } }: PageProps) => {
-  if (!ethereumHashSchema.safeParse(attestationUID).success)
-    throw new AttestationError("Invalid attestation UID");
-
-  const { data: attestation } = useSuspenseQuery({
-    queryKey: ["attestation", attestationUID],
-    queryFn: () => {
-      const attestation = attestationService.getAttestationView(attestationUID);
-      if (!attestation) throw new AttestationError("Attestation not found");
-      return attestation;
-    },
-  });
+  const attestation = useAttestation(attestationUID);
 
   const pathname = usePathname();
   const copyAttestationLink = () => {

@@ -1,21 +1,29 @@
 'use client'
 
-import {Input} from "@/components/ui/input";
+import React  from "react";
 import {Button} from "@/components/ui/button";
+import {InputFile} from "@/components/inputFile";
 import {useRouter} from "next/navigation";
-import { z } from "zod";
-import { ethereumHashSchema } from "@/utils/ethereumHashSchema";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { mapValues, stubString } from "lodash/fp";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
+import { useAttestation } from "@/utils/useAttestation";
 
+type PageProps = {
+  params: {
+    attestationUID: string;
+  };
+};
 
-const VerifyAttestationPage = () => {
+const VerifyAttestationPage = ({ params: {attestationUID} }: PageProps) => {
+  useAttestation(attestationUID);
+
   const schema = z.object({
-    transactionUID: ethereumHashSchema,
-  });
+    fileHash: z.string().min(1, "A file is required"),
+  })
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -23,31 +31,30 @@ const VerifyAttestationPage = () => {
   });
 
   const router = useRouter();
-  const submitTransactionUIDForm = form.handleSubmit((data) => {
-    router.push(`/verifyAttestation/${data.transactionUID}`);
+  const onSubmit = form.handleSubmit((data) => {
+    router.push(`/verifyAttestation/${attestationUID}/${data.fileHash}`);
   });
 
   const isLoading = form.formState.isSubmitting || form.formState.isSubmitSuccessful;
 
   return (
     <Form {...form}>
-      <form onSubmit={submitTransactionUIDForm} className={cn("w-full", isLoading && "pointer-events-none")}>
+      <form onSubmit={onSubmit} className={cn("w-full", isLoading && "pointer-events-none")} >
         <FormField
-          name="transactionUID"
+          name="fileHash"
           control={form.control}
-          render={({ field }) => (
+          render={({ field: { ref: _, ...field } }) => (
             <FormItem>
-              <FormLabel>Transaction UID</FormLabel>
+              <FormLabel>Document</FormLabel>
               <div className="flex space-x-2 justify-center">
                 <FormControl>
-                  <Input
-                    className="text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md"
-                    placeholder="Enter transaction UID..."
+                  <InputFile
+                    className="text-center text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md"
                     {...field}
                   />
                 </FormControl>
                 <Button type="submit" loading={isLoading}>
-                  Verify Attestation
+                  Verify document
                 </Button>
               </div>
               <FormMessage />

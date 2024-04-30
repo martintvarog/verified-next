@@ -13,13 +13,13 @@ type ErrorPageProps = {
   reset: () => void;
 };
 
-const ViewAttestationError = ({ error, reset }: ErrorPageProps) => {
+const VerifyAttestationError = ({ error, reset }: ErrorPageProps) => {
   let actions: React.ReactNode;
   if (error instanceof AttestationError) {
     actions = (
-      <Link href="/createAttestation">
+      <Link href="/verifyAttestation">
         <Button variant="default">
-          View a different attestation
+          Verify a different attestation
         </Button>
       </Link>
     );
@@ -45,4 +45,4 @@ const ViewAttestationError = ({ error, reset }: ErrorPageProps) => {
   );
 };
 
-export default ViewAttestationError;
+export default VerifyAttestationError;

@@ -1,6 +1,5 @@
 "use client";
 
-import React  from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -16,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { ethereumHashSchema } from "@/utils/ethereumHashSchema";
-import { mapValues } from "lodash";
+import { mapValues, stubString } from "lodash/fp";
 import { cn } from "@/lib/utils";
 
 const ViewAttestationPage = () => {
@@ -26,7 +25,7 @@ const ViewAttestationPage = () => {
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
-    defaultValues: mapValues(() => "", schema.shape),
+    defaultValues: mapValues(stubString, schema.shape),
   });
 
   const router = useRouter();
@@ -38,7 +37,7 @@ const ViewAttestationPage = () => {
 
   return (
     <Form {...form}>
-      <form className={cn("w-full", isLoading && "pointer-events-none")} onSubmit={submitTransactionUIDForm}>
+      <form onSubmit={submitTransactionUIDForm} className={cn("w-full", isLoading && "pointer-events-none")}>
         <FormField
           name="transactionUID"
           control={form.control}

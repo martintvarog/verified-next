@@ -8,7 +8,6 @@ import '@testing-library/jest-dom'
 import {expect} from "@jest/globals";
 import WalletService from "@/services/walletService";
 
-
 jest.mock('next/navigation');
 jest.mock("@tanstack/react-query");
 jest.mock("verified/src/services/walletService");

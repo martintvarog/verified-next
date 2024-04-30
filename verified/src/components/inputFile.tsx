@@ -6,7 +6,7 @@ import { AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type Props = {
-  name: string;
+  name?: string;
   onChange: (hash: string) => void;
   className?: string;
 };

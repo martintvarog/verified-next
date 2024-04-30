@@ -16,11 +16,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { mapValues } from "lodash";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useWalletConnected } from "@/utils/useWalletConnected";
 import { toast } from "sonner";
+import { mapValues, stubString } from "lodash/fp";
 
 const Page = () => {
   useWalletConnected();
@@ -56,7 +56,7 @@ const Page = () => {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: mapValues(() => "", formSchema.shape),
+    defaultValues: mapValues(stubString, formSchema.shape),
   });
 
   const router = useRouter();
