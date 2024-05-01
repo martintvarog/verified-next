@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import NavBar from "@/components/Navbar";
-import { Providers } from "./Providers";
+import Providers from "./Providers";
 import { PropsWithChildren } from "react";
 import { Toaster } from "@/components/ui/sonner";
 
