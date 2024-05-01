@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "typecheck": "tsc"
+    "typecheck": "tsc --project tsconfig.typecheck.json"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
