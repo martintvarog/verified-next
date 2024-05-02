@@ -1,118 +1,117 @@
-import {afterEach, beforeEach, describe, expect, it} from "@jest/globals";
-import WalletService from "@/services/walletService";
+import { afterEach, beforeEach, describe, expect, it } from "@jest/globals";
+import * as WalletService from "@/services/walletService";
 
 let windowSpy: jest.SpyInstance;
 
 beforeEach(() => {
-    windowSpy = jest.spyOn(window, 'window', 'get');
+  windowSpy = jest.spyOn(window, "window", "get");
 });
 
 afterEach(() => {
-    windowSpy.mockRestore();
+  windowSpy.mockRestore();
 });
 
-describe('WalletService', () => {
-    it('connectWallet', async () => {
-        // arrange
-        const ethereum = {
-            request: jest.fn(),
-        };
-        windowSpy.mockImplementation(() => ({
-            ethereum: ethereum
-        }));
+describe("WalletService", () => {
+  describe("connectWallet", () => {
+    it("connects wallet successfully", async () => {
+      // arrange
+      const ethereum = {
+        request: jest.fn(),
+      };
+      windowSpy.mockImplementation(() => ({
+        ethereum: ethereum,
+      }));
 
-        ethereum.request.mockResolvedValueOnce(['0x1234']);
+      ethereum.request.mockResolvedValueOnce(["0x1234"]);
 
-        // act
-        const connected = await WalletService.connectWallet();
+      // act
+      await WalletService.connectWallet();
 
-        // assert
-        expect(connected).toBe(true);
-        expect(ethereum.request).toHaveBeenCalledTimes(1);
-        expect(ethereum.request).toHaveBeenCalledWith({method: 'eth_requestAccounts'});
+      // assert
+      expect(ethereum.request).toHaveBeenCalledTimes(1);
+      expect(ethereum.request).toHaveBeenCalledWith({
+        method: "eth_requestAccounts",
+      });
     });
 
-    it('connectWallet - no ethereum', async () => {
-        // arrange
-        windowSpy.mockImplementation(() => ({
-            ethereum: undefined
-        }));
+    it("throws error when there is no wallet", async () => {
+      // arrange
+      windowSpy.mockImplementation(() => ({
+        ethereum: undefined,
+      }));
 
-        // act
-        const connected = await WalletService.connectWallet();
+      // act
+      const connectThatThrows = WalletService.connectWallet;
 
-        // assert
-        expect(connected).toBe(false);
+      // assert
+      expect(connectThatThrows()).rejects.toThrow();
     });
 
-    it('connectWallet - error', async () => {
-        // arrange
-        const ethereum = {
-            request: jest.fn(),
-        };
-        windowSpy.mockImplementation(() => ({
-            ethereum: ethereum
-        }));
+    it("throws when wallet fails to connect", async () => {
+      // arrange
+      const ethereum = {
+        request: jest.fn(),
+      };
+      windowSpy.mockImplementation(() => ({
+        ethereum,
+      }));
 
-        ethereum.request.mockRejectedValueOnce('error');
+      ethereum.request.mockRejectedValueOnce(new Error("error"));
 
-        // act
-        const connected = await WalletService.connectWallet();
+      // act
+      const connectThatThrows = WalletService.connectWallet;
 
-        // assert
-        expect(connected).toBe(false);
+      // assert
+      expect(connectThatThrows()).rejects.toThrow();
+    });
+  });
+
+  describe("isWalletConnected", () => {
+    it("returns true when wallet is connected", () => {
+      // arrange
+      const ethereum = {
+        selectedAddress: "0x1234",
+      };
+      windowSpy.mockImplementation(() => ({
+        ethereum,
+      }));
+
+      // act
+      const result = WalletService.isWalletConnected();
+
+      // assert
+      expect(result).toBe(true);
     });
 
-    it('isWalletConnected', async () => {
-        // arrange
-        const ethereum = {
-            request: jest.fn(),
-        };
-        windowSpy.mockImplementation(() => ({
-            ethereum: ethereum
-        }));
+    it("returns false when wallet is not connected", () => {
+      // arrange
+      const ethereum = {
+        selectedAddress: undefined,
+      };
+      windowSpy.mockImplementation(() => ({
+        ethereum,
+      }));
 
-        ethereum.request.mockResolvedValueOnce(['0x1234']);
+      // act
+      const result = WalletService.isWalletConnected();
 
-        // act
-        const connected = await WalletService.isWalletConnected();
-
-        // assert
-        expect(connected).toBe(true);
-        expect(ethereum.request).toHaveBeenCalledTimes(1);
-        expect(ethereum.request).toHaveBeenCalledWith({method: 'eth_accounts'});
+      // assert
+      expect(result).toBe(false);
     });
+  });
 
-    it('isWalletConnected - no ethereum', async () => {
-        // arrange
-        windowSpy.mockImplementation(() => ({
-            ethereum: undefined
-        }));
 
-        // act
-        const connected = await WalletService.isWalletConnected();
+  it("returns false when there is no wallet", () => {
+    // arrange
+    windowSpy.mockImplementation(() => ({
+      ethereum: undefined,
+    }));
 
-        // assert
-        expect(connected).toBe(false);
-    });
+    // act
+    const result = WalletService.isWalletConnected();
 
-    it('isWalletConnected - error', async () => {
-        // arrange
-        const ethereum = {
-            request: jest.fn(),
-        };
-        windowSpy.mockImplementation(() => ({
-            ethereum: ethereum
-        }));
-
-        ethereum.request
-            .mockRejectedValueOnce('error');
-
-        // act
-        const connected = await WalletService.isWalletConnected();
-
-        // assert
-
-        expect(connected).toBe(false);
-    });
+    // assert
+    expect(result).toBe(false);
+  });
 });
+
