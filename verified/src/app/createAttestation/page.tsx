@@ -21,6 +21,8 @@ import { cn } from "@/lib/utils";
 import { useWalletConnected } from "@/utils/useWalletConnected";
 import { toast } from "sonner";
 import { mapValues, stubString } from "lodash/fp";
+import { useMutation } from "@tanstack/react-query";
+import { parseMetamaskErrorMessage } from "@/utils/parseMetamaskErrorMessage";
 
 const Page = () => {
   useWalletConnected();
@@ -60,21 +62,20 @@ const Page = () => {
   });
 
   const router = useRouter();
-  const handleSubmit = form.handleSubmit(async (data) => {
-    console.log(data);
-    const transactionUID = await AttestationService.createAttestation(data);
-    console.log({transactionUID})
-
-    if (!transactionUID) {
-      toast.error("Failed to create attestation");
-      return;
-    }
-
-    console.log(transactionUID);
-    router.push(`/viewAttestation/${transactionUID}`);
+  const { mutate: createAttestation, isPending: creatingAttestation } = useMutation({
+    mutationFn: AttestationService.createAttestation,
+    onError: (error) => {
+      console.log(error.message)
+      toast.error(parseMetamaskErrorMessage(error.message));
+    },
+    onSuccess: (attestationUID) => {
+      router.push(`/viewAttestation/${attestationUID}`);
+    },
   });
 
-  const isLoading = form.formState.isSubmitting;
+  const handleSubmit = form.handleSubmit((data) => createAttestation(data));
+
+  const isLoading = form.formState.isSubmitting || creatingAttestation;
 
   return (
     <Form {...form}>

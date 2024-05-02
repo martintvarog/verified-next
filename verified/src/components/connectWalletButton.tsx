@@ -22,13 +22,7 @@ const ConnectWalletButton = ({ className }: Props) => {
   const walletConnectedRedirect = useWalletConnectedRedirect();
 
   const { mutate: connectWallet, isPending: walletConnecting } = useMutation({
-    mutationFn: async () => {
-      console.log('verifying wallet');
-      const connected = await WalletService.connectWallet()
-      if (!connected) {
-        throw new Error('Failed to connect wallet');
-      }
-    },
+    mutationFn: WalletService.connectWallet,
     onSuccess: () => {
       console.log('wallet connected');
       router.push(walletConnectedRedirect);

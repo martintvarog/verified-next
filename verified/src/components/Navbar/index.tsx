@@ -1,13 +1,12 @@
 "use client";
 
-
 import { AppBar, Toolbar } from "@mui/material";
 import { NavbarLink } from "./NavbarLink";
 import { Sixtyfour } from "next/font/google";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
-const sixtyFour = Sixtyfour({ subsets: ["latin"] });
+const logoFont = Sixtyfour({ subsets: ["latin"] });
 
 const NavBar: React.FC = () => (
   <AppBar
@@ -24,7 +23,7 @@ const NavBar: React.FC = () => (
         <h1 className={cn(
           "text-blue-400 text-3xl text-center",
           "lg:pl-4 lg:text-left",
-          sixtyFour.className
+          logoFont.className
         )}>
           Verified
         </h1>

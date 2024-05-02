@@ -1,15 +1,14 @@
-import {Attestation, EAS, SchemaDecodedItem, SchemaEncoder} from "@ethereum-attestation-service/eas-sdk";
-import {EAS_CONTRACT_ADDRESS_SEPOLIA, SCHEMA, SCHEMA_UID} from "@/config/config";
+import {Attestation, SchemaDecodedItem, SchemaEncoder} from "@ethereum-attestation-service/eas-sdk";
+import { SCHEMA, SCHEMA_UID} from "@/config/config";
 import {AttestationData, AttestationDataView} from "@/types/attestationData";
-import {ConfiguredEAS} from "@/services/configureEAS";
-import { AttestationError } from "@/utils/attestationError";
+import * as EASService from "@/services/easService";
 import { identity } from "lodash/fp";
 
 
 const Schema = "string University_Name, string Faculty_Name, string Programme_Name, string Type_Name, string Mode_Name, string Academic_Year, string File_Hash";
 
 export const createAttestation = async (attestationData: AttestationData): Promise<string> => {
-    const eas: EAS = await ConfiguredEAS.configureEAS(true);
+    const eas = await EASService.getEASClient();
 
     // Initialize SchemaEncoder with the schema string
     const schemaEncoder = new SchemaEncoder(SCHEMA);
@@ -23,49 +22,34 @@ export const createAttestation = async (attestationData: AttestationData): Promi
         {name: "File_Hash", value: attestationData.fileHash, type: "string"}
     ]);
 
-    try {
-        const tx = await eas.attest({
-            schema: SCHEMA_UID,
-            data: {
-                recipient: attestationData.recipientAddress,
-                expirationTime: undefined,
-                revocable: false,
-                data: encodedData,
-            },
-        });
+    const tx = await eas.attest({
+      schema: SCHEMA_UID,
+      data: {
+        recipient: attestationData.recipientAddress,
+        expirationTime: undefined,
+        revocable: false,
+        data: encodedData,
+      },
+    });
 
-        return await tx.wait();
+    const attestationUID = await tx.wait();
 
-    } catch (e) {
-        console.error(e);
-        return ''
-    }
+    return attestationUID;
 }
 
-const getAttestation = async (transactionUID: string): Promise<Attestation> => {
-  const eas = await ConfiguredEAS.configureEAS(false);
+export const getAttestation = async (transactionUID: string): Promise<Attestation> => {
+  const eas = await EASService.getEASServer();
   // Errors as values FTW
   const attestation = await eas.getAttestation(transactionUID).catch(identity);
 
   if (attestation instanceof Error) {
     console.error(attestation);
-    throw new AttestationError("Something went wrong");
+    throw new Error("Something went wrong");
   }
 
-  if (!attestation) throw new AttestationError("Attestation not found");
+  if (!attestation) throw new Error("Attestation not found");
 
   return attestation;
-}
-
-export const getAttestationView = async (transactionUID: string): Promise<AttestationDataView> => {
-    const attestation = await getAttestation(transactionUID);
-    console.log(attestation)
-    if (attestation.uid === "0x0000000000000000000000000000000000000000000000000000000000000000") 
-      throw new AttestationError("Attestation not found");
-
-    const decodedSchema = decodeAttestationData(attestation.data);
-    console.log("Schema is decoded")
-    return mapAttestationData(attestation, decodedSchema);
 }
 
 const decodeAttestationData = (attestationData: string): SchemaDecodedItem[] => {
@@ -100,3 +84,7 @@ const mapAttestationData = (attestation: Attestation, decodedData: SchemaDecoded
     };
 }
 
+export const parseAttestation = (attestation: Attestation): AttestationDataView => {
+  const decodedSchema = decodeAttestationData(attestation.data);
+  return mapAttestationData(attestation, decodedSchema);
+};

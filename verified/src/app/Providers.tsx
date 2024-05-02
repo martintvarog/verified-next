@@ -5,7 +5,13 @@ import { httpBatchLink, getFetch, loggerLink } from "@trpc/client";
 import { useState } from "react";
 import { trpc } from "@/utils/trpc";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnMount: false,
+    }
+  } 
+});
 
 const Providers: React.FC<{ children: React.ReactNode }> = ({
   children,
