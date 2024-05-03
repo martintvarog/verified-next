@@ -1,28 +1,52 @@
 import WalletService from "@/services/walletService";
-import {useRouter} from "next/navigation";
+import {useRouter, useSearchParams} from "next/navigation";
 import {Button} from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { Route } from "next";
 
+export const useWalletConnectedRedirect = () => {
+  const searchParams = useSearchParams();
 
-const ConnectWalletButton = () => {
+  const redirect = searchParams.get('redirect') ?? '/createAttestation' satisfies Route;
+  return redirect as Route;
+}
 
-   const router = useRouter();
+type Props = {
+  className?: string;
+};
 
-    const connectWallet = async () => {
-        console.log('verifying wallet');
-        await WalletService.connectWallet().then((connected) => {
-            console.log('wallet is: ', connected);
-            if (connected) {
-                router.push('/createAttestation?isWalletConnected=true');
-            }
-        });
-    };
+const ConnectWalletButton = ({ className }: Props) => {
+  const router = useRouter();
+  const walletConnectedRedirect = useWalletConnectedRedirect();
 
-    return (
-        <div>
-            <Button onClick={connectWallet} className="px-4 py-2 text-lg">Connect Wallet</Button>
-        </div>
+  const { mutate: connectWallet, isPending: walletConnecting } = useMutation({
+    mutationFn: async () => {
+      console.log('verifying wallet');
+      const connected = await WalletService.connectWallet()
+      if (!connected) {
+        throw new Error('Failed to connect wallet');
+      }
+    },
+    onSuccess: () => {
+      console.log('wallet connected');
+      router.push(walletConnectedRedirect);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  }) 
 
-    );
+  return (
+    <Button
+      onClick={() => { connectWallet() }}
+      className={cn(className, "px-4 py-2 text-lg")}
+      loading={walletConnecting}
+    >
+      Connect Wallet
+    </Button>
+  );
 };
 
 export default ConnectWalletButton;

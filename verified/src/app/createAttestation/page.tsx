@@ -1,9 +1,6 @@
 "use client";
 
-import WalletService from "@/services/walletService";
-import { useEffect, useState } from "react";
 import attestationService from "@/services/attestationService";
-import Spinner from "@/components/spinner";
 import { InputFile } from "@/components/inputFile";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -19,22 +16,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useQuery } from "@tanstack/react-query";
 import { mapValues } from "lodash";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { useWalletConnected } from "@/utils/useWalletConnected";
+import { PulseLoader } from "react-spinners";
+import { toast } from "sonner";
 
 const Page = () => {
-  const [transactionUID, setTransactionUID] = useState("");
-  const router = useRouter();
-  const [isWalletConnectedAfterRedirect, setIsWalletConnectedAfterRedirect] =
-    useState(false);
-
-  const searchParams = useSearchParams();
-
-  const { data: isWalletConnected } = useQuery({
-    queryKey: ["isWalletConnected"],
-    queryFn: async () => await WalletService.isWalletConnected(),
-  });
+  useWalletConnected();
 
   const formSchema = z.object({
     recipientAddress: z
@@ -70,43 +60,23 @@ const Page = () => {
     defaultValues: mapValues(() => "", formSchema.shape),
   });
 
+  const router = useRouter();
   const handleSubmit = form.handleSubmit(async (data) => {
     console.log(data);
     const transactionUID = await attestationService.createAttestation(data);
     console.log(transactionUID);
-    setTransactionUID(transactionUID);
+    router.push(`/viewAttestation?transactionUID=${transactionUID}`);
   });
 
-  useEffect(() => {
-    if (searchParams.has("isWalletConnected")) {
-      setIsWalletConnectedAfterRedirect(
-        searchParams.get("isWalletConnected") === "true",
-      );
-    }
-    if (isWalletConnected === false && !isWalletConnectedAfterRedirect) {
-      router.push("/connectWallet");
-    }
-  }, [isWalletConnected, isWalletConnectedAfterRedirect, router, searchParams]);
+  const pathname = usePathname();
+  if (isWalletConnected === false) return redirect(`/connectWallet?redirect=${pathname}`);
 
-  useEffect(() => {
-    if (transactionUID)
-      router.push(`/viewAttestation?transactionUID=${transactionUID}`);
-  }, [transactionUID, router]);
-
-  useEffect(() => {
-    if (form.formState.isSubmitting) Spinner(true);
-  }, [form.formState.isSubmitting]);
-
-  // if (transactionUID) return router.push(`/viewAttestation?transactionUID=${transactionUID}`);
-  //
-  // if (form.formState.isSubmitting)
-  //     return Spinner(true);
-  //
-  // if (isWalletConnected === false) return router.push('/connectWallet');
+  if (form.formState.isSubmitting)
+      return Spinner(true);
 
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className={cn("space-y-6", isLoading && "pointer-events-none")}>
         <FormField
           control={form.control}
           name="recipientAddress"
@@ -259,7 +229,7 @@ const Page = () => {
           )}
         />
 
-        <Button className="w-full" type="submit">
+        <Button className="w-full relative" type="submit" loading={isLoading} >
           Create Attestation
         </Button>
       </form>

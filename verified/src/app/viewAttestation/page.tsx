@@ -14,12 +14,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useMutation, useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import attestationService from "@/services/attestationService";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { mapValues, set } from "lodash";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useSetSearchParam } from "@/utils/useSetSearchParam";
-import { Attestation } from "@ethereum-attestation-service/eas-sdk";
 import AttestationViewForm from "./AttestationViewForm";
 
 export class AttestationNotFound extends Error {
@@ -61,9 +59,10 @@ const ViewAttestationPage = () => {
   });
 
   const pathname = usePathname();
-  const copyURL = (): void => {
-    const currentURL = new URL(pathname, window.location.origin).toString();
-    navigator.clipboard.writeText(currentURL);
+  const copyAttestationLink = (uid: string) => {
+    const currentURL = new URL(pathname, window.location.origin);
+    currentURL.searchParams.set("transactionUID", uid);
+    navigator.clipboard.writeText(currentURL.toString());
   };
 
   return (
@@ -104,7 +103,7 @@ const ViewAttestationPage = () => {
         <>
           <AttestationViewForm attestation={attestation} />
           <div className="flex justify-between w-full space-x-5 mt-4">
-            <Button className="w-1/2" onClick={copyURL}>
+            <Button className="w-1/2" onClick={() => {copyAttestationLink(attestation.uid)}}>
               Copy Attestation
             </Button>
             <Button
