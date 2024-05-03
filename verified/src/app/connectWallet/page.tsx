@@ -1,5 +1,5 @@
 'use client'
-import ConnectWalletButton from "../components/connectWalletButton.tsx";
+import ConnectWalletButton from "@/components/connectWalletButton";
 
 const ConnectWalletPage = () => {
     return (
