@@ -3,7 +3,6 @@
 import WalletService from "@/services/walletService";
 import {useState} from "react";
 import attestationService from "@/services/attestationService";
-import {Redirect} from "react-router-dom";
 import Spinner from "@/components/spinner";
 import {InputFile} from "@/components/inputFile";
 import {z} from "zod";
@@ -22,10 +21,11 @@ import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {useQuery} from "@tanstack/react-query";
 import { mapValues } from "lodash"
+import {useRouter} from "next/navigation";
 
 const Page = () => {
     const [transactionUID, setTransactionUID] = useState('');
-
+    const router = useRouter();
 
     const {data: isWalletConnected} = useQuery({
         queryKey: ['isWalletConnected'],
@@ -74,12 +74,12 @@ const Page = () => {
         });
 
 
-    if (transactionUID) return <Redirect to={`/viewAttestation?transactionUID=${transactionUID}`}/>
+    if (transactionUID) return router.push(`/viewAttestation?transactionUID=${transactionUID}`);
 
     if (form.formState.isSubmitting)
         return Spinner(true);
 
-    if (isWalletConnected === false) return <Redirect to={'/connectWallet'}/>
+    if (isWalletConnected === false) return router.push('/connectWallet');
 
     return (
         <div>
