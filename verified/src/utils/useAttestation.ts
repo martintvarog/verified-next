@@ -17,6 +17,8 @@ export const useAttestation = (attestationUID: string) => {
         ) return false;
         return retries < 3;
       },
+      // refetch at most every 30 seconds
+      staleTime: 1000 * 30,
     },
   );
 
