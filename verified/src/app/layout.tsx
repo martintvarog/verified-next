@@ -1,12 +1,12 @@
 'use client'
 
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+
+import {Inter} from "next/font/google";
 import "./globals.css";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
-import Link from "next/link";
+import NavBar from "@/components/navbar";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({subsets: ["latin"]});
 
 // export const metadata: Metadata = {
 //   title: "Create Next App",
@@ -15,37 +15,22 @@ const inter = Inter({ subsets: ["latin"] });
 
 const queryClient: QueryClient = new QueryClient();
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body className={inter.className}>{children}
+
+export default function RootLayout({children,}: Readonly<{ children: React.ReactNode; }>) {
+    return (
+        <html lang="en">
+        <QueryClientProvider client={queryClient}>
+            <body className={inter.className + " justify-center m-10 y-5"}>
+            <header className="App-header mt-5">
+                <NavBar/>
+            </header>
+            <div className="space-y-5 mt-20">
+                {children}
+            </div>
 
 
-      <QueryClientProvider client={queryClient}>
-
-          <div className="App">
-                <h2>Ověřeno.cz/Verified.com</h2>
-                <button className="button-div"><Link to="createAttestation" href="createAttestation">Create Attestation</Link>
-                </button>
-                <button className="button-div"><Link to="viewAttestation" href="viewAttestation">View Attestation</Link></button>
-                <button className="button-div"><Link to="verifyAttestation" href="verifyAttestation">Verify Attestation</Link>
-                </button>
-
-          </div>
-      </QueryClientProvider>
-
-
-
-
-
-
-
-      </body>
-
-    </html>
-  );
+            </body>
+        </QueryClientProvider>
+        </html>
+    );
 }
