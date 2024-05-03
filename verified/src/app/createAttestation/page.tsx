@@ -1,6 +1,6 @@
 "use client";
 
-import attestationService from "@/services/attestationService";
+import * as AttestationService from "@/services/attestationService";
 import { InputFile } from "@/components/inputFile";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -62,16 +62,19 @@ const Page = () => {
   const router = useRouter();
   const handleSubmit = form.handleSubmit(async (data) => {
     console.log(data);
-    const transactionUID = await attestationService.createAttestation(data);
+    const transactionUID = await AttestationService.createAttestation(data);
+    console.log({transactionUID})
+
+    if (!transactionUID) {
+      toast.error("Failed to create attestation");
+      return;
+    }
+
     console.log(transactionUID);
     router.push(`/viewAttestation/${transactionUID}`);
   });
 
-  const pathname = usePathname();
-  if (isWalletConnected === false) return redirect(`/connectWallet?redirect=${pathname}`);
-
-  if (form.formState.isSubmitting)
-      return Spinner(true);
+  const isLoading = form.formState.isSubmitting;
 
   return (
     <Form {...form}>

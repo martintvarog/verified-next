@@ -8,7 +8,7 @@ import { identity } from "lodash/fp";
 
 const Schema = "string University_Name, string Faculty_Name, string Programme_Name, string Type_Name, string Mode_Name, string Academic_Year, string File_Hash";
 
-const createAttestation = async (attestationData: AttestationData): Promise<string> => {
+export const createAttestation = async (attestationData: AttestationData): Promise<string> => {
     const eas: EAS = await ConfiguredEAS.configureEAS(true);
 
     // Initialize SchemaEncoder with the schema string
@@ -57,7 +57,7 @@ const getAttestation = async (transactionUID: string): Promise<Attestation> => {
   return attestation;
 }
 
-const getAttestationView = async (transactionUID: string): Promise<AttestationDataView> => {
+export const getAttestationView = async (transactionUID: string): Promise<AttestationDataView> => {
     const attestation = await getAttestation(transactionUID);
     console.log(attestation)
     if (attestation.uid === "0x0000000000000000000000000000000000000000000000000000000000000000") 
@@ -72,14 +72,6 @@ const decodeAttestationData = (attestationData: string): SchemaDecodedItem[] => 
     const schemaEncoder = new SchemaEncoder(Schema);
 
     return schemaEncoder.decodeData(attestationData);
-}
-
-const getFileHash = async (transactionUID: string): Promise<string | undefined> => {
-
-    const attestation = await getAttestationView(transactionUID);
-
-    return attestation?.fileHash || undefined;
-
 }
 
 const mapAttestationData = (attestation: Attestation, decodedData: SchemaDecodedItem[]): AttestationDataView => {
@@ -108,11 +100,3 @@ const mapAttestationData = (attestation: Attestation, decodedData: SchemaDecoded
     };
 }
 
-const AttestationService = {
-    createAttestation,
-    getAttestation,
-    getAttestationView,
-    getFileHash
-};
-
-export default AttestationService;

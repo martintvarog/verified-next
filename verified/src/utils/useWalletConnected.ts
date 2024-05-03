@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import WalletService from "@/services/walletService";
+import * as WalletService from "@/services/walletService";
 import { redirect, usePathname } from "next/navigation"
 
 type Props = {

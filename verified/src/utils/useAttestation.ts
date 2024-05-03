@@ -1,4 +1,4 @@
-import attestationService from "@/services/attestationService";
+import * as AttestationService from "@/services/attestationService";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { AttestationError } from "@/utils/attestationError";
 import { ethereumHashSchema } from "./ethereumHashSchema";
@@ -10,7 +10,7 @@ export const useAttestation = (attestationUID: string) => {
   const {data: attestation} = useSuspenseQuery({
     queryKey: ["attestation", attestationUID],
     queryFn: () => {
-      const attestation = attestationService.getAttestationView(attestationUID);
+      const attestation = AttestationService.getAttestationView(attestationUID);
       if (!attestation) throw new AttestationError("Attestation not found");
       return attestation;
     },

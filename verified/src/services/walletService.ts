@@ -1,4 +1,4 @@
-const connectWallet = async (): Promise<boolean> => {
+export const connectWallet = async (): Promise<boolean> => {
     try {
         if (window.ethereum) {
             await window.ethereum.request({method: 'eth_requestAccounts'});
@@ -15,11 +15,11 @@ const connectWallet = async (): Promise<boolean> => {
     return false;
 };
 
-const isWalletConnected = async (): Promise<boolean> => {
+export const isWalletConnected = async (): Promise<boolean> => {
     try {
         if (window.ethereum) {
-            const accounts = await window.ethereum.request({method: 'eth_accounts'});
-            return accounts.length > 0;
+            const accounts = await window.ethereum.request<unknown[]>({method: 'eth_accounts'});
+            return !!accounts?.length;
         }
         return false;
     } catch (error) {
@@ -27,5 +27,3 @@ const isWalletConnected = async (): Promise<boolean> => {
         return false;
     }
 }
-
-export default {connectWallet, isWalletConnected};
