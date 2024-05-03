@@ -1,16 +1,15 @@
 'use client'
 
 import React, {useEffect, useMemo, useState} from "react";
-import {useLocation} from "react-router-dom";
 import {useQuery} from "@tanstack/react-query";
 import attestationService from "@/services/attestationService";
-import {Input} from "@/components/ui/input.tsx";
-import {Button} from "@/components/ui/button.tsx";
-import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert.tsx";
+import {Input} from "@/components/ui/input";
+import {Button} from "@/components/ui/button";
+import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
 import {AlertCircle} from "lucide-react";
 import {InputFile} from "@/components/inputFile";
 import VerificationStatus from "@/components/verificationStatus";
-import {useRouter} from "next/router";
+import {useRouter, useSearchParams} from "next/navigation";
 
 
 const VerifyAttestationPage = () => {
@@ -21,16 +20,7 @@ const VerifyAttestationPage = () => {
     const [displayHeader, setDisplayHeader] = useState<boolean>(true);
     const [displayAlert, setDisplayAlert] = useState<boolean>(false)
 
-    const location = useLocation();
-
-    const searchParams = useMemo(() => new URLSearchParams(location.search), [location.search]);
-
-    const router = useRouter();
-
-    const searchParams = useMemo(() => {
-        const queryParams = new URLSearchParams(router.asPath.split('?')[1]); // Get query parameters from the router
-        return queryParams;
-    }, [router.asPath]);
+    const searchParams = useSearchParams()
 
     // Fetch transactionUID when component mounts
     React.useEffect(() => {

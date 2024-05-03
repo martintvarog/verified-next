@@ -1,7 +1,6 @@
 'use client'
 
 import React, {useMemo, useState} from 'react';
-import {useLocation} from 'react-router-dom';
 import {z} from "zod"
 import {zodResolver} from "@hookform/resolvers/zod"
 import {useForm} from "react-hook-form"
@@ -16,11 +15,12 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import {Input} from "@/components/ui/input"
-import {AttestationDataView} from "@/types/attestationData.ts";
-import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert.tsx";
+import {AttestationDataView} from "@/types/attestationData";
+import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
 import {AlertCircle} from "lucide-react";
 import {useQuery} from "@tanstack/react-query";
 import attestationService from "@/services/attestationService";
+import {useRouter, useSearchParams} from "next/navigation";
 
 const ViewAttestationPage = () => {
     const [transactionUID, setTransactionUID] = useState<string>();
@@ -29,9 +29,7 @@ const ViewAttestationPage = () => {
     const [attestation, setAttestation] = useState<AttestationDataView | undefined>(undefined);
     const [displayAlert, setDisplayAlert] = useState<boolean>(false)
 
-    const location = useLocation();
-
-    const searchParams = useMemo(() => new URLSearchParams(location.search), [location.search]);
+    const searchParams = useSearchParams();
 
     // Fetch transactionUID when component mounts
     React.useEffect(() => {
