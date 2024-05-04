@@ -7,7 +7,7 @@ import {ethers} from "ethers";
 const Schema = "string University_Name, string Faculty_Name, string Programme_Name, string Type_Name, string Mode_Name, string Academic_Year, string File_Hash";
 
 const createAttestation = async (attestationData: AttestationData): Promise<string> => {
-    const eas: EAS = await configureEAS();
+    const eas: EAS = await configureEAS(true);
 
     // Initialize SchemaEncoder with the schema string
     const schemaEncoder = new SchemaEncoder(SCHEMA);
@@ -42,27 +42,13 @@ const createAttestation = async (attestationData: AttestationData): Promise<stri
 
 const getAttestation = async (transactionUID: string): Promise<Attestation | undefined> => {
 
-    const eas = new EAS(EAS_CONTRACT_ADDRESS_SEPOLIA);
-    console.log("eas: " + eas)
-
-
-    console.log("provider id: " + process.env.INFURA_PROVIDER_ID)
-
-    //TODO: WTF IS HAPPENING
-     const provider = new ethers.InfuraProvider("sepolia", process.env.INFURA_PROVIDER_ID, process.env.INFURA_PROVIDER_SECRET);
-    //const provider = new ethers.InfuraProvider("sepolia", process.env.INFURA_PROVIDER_ID , pr);
-
-    console.log("provider: " + provider.provider)
-
-    // dirty but works
-    // @ts-ignore
-    eas.connect(provider);
+    const eas = await configureEAS(false);
 
     try {
-        console.log("Getting attestation")
         return await eas.getAttestation(transactionUID);
     } catch (e) {
         console.error(e);
+
         return undefined;
     }
 }
@@ -95,16 +81,30 @@ const getFileHash = async (transactionUID: string): Promise<string | undefined> 
 
 }
 
-const configureEAS = async (): Promise<EAS> => {
-    const provider = new ethers.BrowserProvider(window.ethereum);
+const configureEAS = async (isSignerNeeded: boolean): Promise<EAS> => {
 
-    const signer = await provider.getSigner();
+    console.log("Configuring EAS")
 
     const eas = new EAS(EAS_CONTRACT_ADDRESS_SEPOLIA);
 
-    eas.connect(signer);
+    if (isSignerNeeded && typeof window.ethereum !== "undefined") {
+
+        const provider = new ethers.BrowserProvider(window.ethereum);
+
+        const signer = await provider.getSigner();
+
+        eas.connect(signer);
+
+        return eas;
+    }
+
+    const provider = new ethers.InfuraProvider("sepolia", process.env.INFURA_PROVIDER_ID, process.env.INFURA_PROVIDER_SECRET);
+
+    // @ts-ignore
+    eas.connect(provider);
 
     return eas;
+
 }
 
 const mapAttestationData = (attestation: Attestation, decodedData: SchemaDecodedItem[]): AttestationDataView => {
