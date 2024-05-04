@@ -12,6 +12,7 @@ const connectWallet = async (): Promise<boolean> => {
         console.error('Error connecting wallet:', error);
         return false;
     }
+    return false;
 };
 
 const isWalletConnected = async (): Promise<boolean> => {
