@@ -1,13 +1,13 @@
 import {Attestation, EAS, SchemaDecodedItem, SchemaEncoder} from "@ethereum-attestation-service/eas-sdk";
 import {EAS_CONTRACT_ADDRESS_SEPOLIA, SCHEMA, SCHEMA_UID} from "@/config/config";
 import {AttestationData, AttestationDataView} from "@/types/attestationData";
-import {ethers} from "ethers";
+import {ConfiguredEAS} from "@/services/configureEAS";
 
 
 const Schema = "string University_Name, string Faculty_Name, string Programme_Name, string Type_Name, string Mode_Name, string Academic_Year, string File_Hash";
 
 const createAttestation = async (attestationData: AttestationData): Promise<string> => {
-    const eas: EAS = await configureEAS(true);
+    const eas: EAS = await ConfiguredEAS.configureEAS(true);
 
     // Initialize SchemaEncoder with the schema string
     const schemaEncoder = new SchemaEncoder(SCHEMA);
@@ -42,7 +42,7 @@ const createAttestation = async (attestationData: AttestationData): Promise<stri
 
 const getAttestation = async (transactionUID: string): Promise<Attestation | undefined> => {
 
-    const eas = await configureEAS(false);
+    const eas = await ConfiguredEAS.configureEAS(false);
 
     try {
         return await eas.getAttestation(transactionUID);
@@ -67,7 +67,7 @@ const getAttestationView = async (transactionUID: string): Promise<AttestationDa
 
 }
 
-const decodeAttestationData = (attestationData : string) : SchemaDecodedItem[] =>{
+const decodeAttestationData = (attestationData: string): SchemaDecodedItem[] => {
     const schemaEncoder = new SchemaEncoder(Schema);
 
     return schemaEncoder.decodeData(attestationData);
@@ -78,32 +78,6 @@ const getFileHash = async (transactionUID: string): Promise<string | undefined> 
     const attestation = await getAttestationView(transactionUID);
 
     return attestation?.fileHash || undefined;
-
-}
-
-const configureEAS = async (isSignerNeeded: boolean): Promise<EAS> => {
-
-    console.log("Configuring EAS")
-
-    const eas = new EAS(EAS_CONTRACT_ADDRESS_SEPOLIA);
-
-    if (isSignerNeeded && typeof window.ethereum !== "undefined") {
-
-        const provider = new ethers.BrowserProvider(window.ethereum);
-
-        const signer = await provider.getSigner();
-
-        eas.connect(signer);
-
-        return eas;
-    }
-
-    const provider = new ethers.InfuraProvider("sepolia", process.env.INFURA_PROVIDER_ID, process.env.INFURA_PROVIDER_SECRET);
-
-    // @ts-ignore
-    eas.connect(provider);
-
-    return eas;
 
 }
 
@@ -133,4 +107,15 @@ const mapAttestationData = (attestation: Attestation, decodedData: SchemaDecoded
     };
 }
 
-export default {createAttestation, getAttestation, getAttestationView, getFileHash};
+const getEasInstance = async (): Promise<EAS> => {
+    return new EAS(EAS_CONTRACT_ADDRESS_SEPOLIA);
+}
+
+const AttestationService = {
+    createAttestation,
+    getAttestation,
+    getAttestationView,
+    getFileHash
+};
+
+export default AttestationService;
