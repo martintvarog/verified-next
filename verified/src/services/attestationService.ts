@@ -44,7 +44,13 @@ const getAttestation = async (transactionUID: string): Promise<Attestation | und
 
     const eas = new EAS(EAS_CONTRACT_ADDRESS_SEPOLIA);
     console.log("eas: " + eas)
-    const provider = new ethers.InfuraProvider("sepolia",);
+
+
+    console.log("provider id: " + process.env.INFURA_PROVIDER_ID)
+
+    //TODO: WTF IS HAPPENING
+     const provider = new ethers.InfuraProvider("sepolia", process.env.INFURA_PROVIDER_ID, process.env.INFURA_PROVIDER_SECRET);
+    //const provider = new ethers.InfuraProvider("sepolia", process.env.INFURA_PROVIDER_ID , pr);
 
     console.log("provider: " + provider.provider)
 
