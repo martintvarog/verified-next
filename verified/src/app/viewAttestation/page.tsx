@@ -41,7 +41,7 @@ const ViewAttestationPage = () => {
         if (uid) {
             setTransactionUID(uid);
         }
-    }, [location.search, searchParams]);
+    }, [searchParams]);
 
     useQuery({
             queryKey: ['attestation', transactionUID],
@@ -150,7 +150,7 @@ const ViewAttestationPage = () => {
                                         name="recipientAddress"
                                         render={({field}) => (
                                             <FormItem>
-                                                <FormLabel>Recipient's address</FormLabel>
+                                                <FormLabel>Recipient&apos;s address</FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         className="text-center text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md"
@@ -170,7 +170,7 @@ const ViewAttestationPage = () => {
                                         name="attester"
                                         render={({field}) => (
                                             <FormItem>
-                                                <FormLabel>Attester's Address </FormLabel>
+                                                <FormLabel>Attester&apos;s Address </FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         className="text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md text-center"
