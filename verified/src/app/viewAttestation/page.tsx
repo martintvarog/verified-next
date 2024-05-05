@@ -31,6 +31,8 @@ const ViewAttestationPage = () => {
 
     const searchParams = useSearchParams();
 
+    const router = useRouter();
+
     // Fetch transactionUID when component mounts
     React.useEffect(() => {
         setDisplayHeader(true);
@@ -115,7 +117,7 @@ const ViewAttestationPage = () => {
 
 
     return (
-        <div className={'m-5 w-full justify-center '}>
+        <div className='m-5 w-full justify-center  max-w-6xl'>
             {displayHeader ? (
                     <h1 className="text-indigo-100 text-center font-bold text-5xl mb-8">
                         View Attestation</h1>) :
@@ -386,8 +388,11 @@ const ViewAttestationPage = () => {
                     )}
 
             {attestation && !displayHeader ?
-                <Button className=" space-y-5 m-10 w-full mx-auto block" onClick={copyURL}>Copy Attestation</Button>
 
+                <div className="flex justify-between w-full space-x-5 mt-4">
+                    <Button className="w-1/2" onClick={copyURL}>Copy Attestation</Button>
+                    <Button className="w-1/2" onClick={() => router.push('/')}>View Another Attestation</Button>
+                </div>
                 : null}
 
         </div>
