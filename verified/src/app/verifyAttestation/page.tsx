@@ -9,7 +9,7 @@ import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
 import {AlertCircle} from "lucide-react";
 import {InputFile} from "@/components/inputFile";
 import VerificationStatus from "@/components/verificationStatus";
-import {useSearchParams} from "next/navigation";
+import {useRouter, useSearchParams} from "next/navigation";
 
 
 const VerifyAttestationPage = () => {
@@ -19,6 +19,8 @@ const VerifyAttestationPage = () => {
     const [existingFileHash, setExistingFileHash] = useState<string | undefined>();
     const [displayHeader, setDisplayHeader] = useState<boolean>(true);
     const [displayAlert, setDisplayAlert] = useState<boolean>(false)
+
+    const router = useRouter();
 
     const searchParams = useSearchParams()
 
@@ -104,9 +106,12 @@ const VerifyAttestationPage = () => {
                     ) : (
                         existingFileHash && attestationToVerifyFileHash) ?
                         (
-                            <div>
+                            <div className="flex w-full max-w-6xl items-center space-x-2 justify-center m-5">
                                 <VerificationStatus
                                     verified={existingFileHash === attestationToVerifyFileHash}/>
+                                <div className="flex m-5 space-x-10">
+                                    <Button className="ml-5" onClick={() => router.push('/')}>Verify Another Attestation</Button>
+                                </div>
                             </div>
                         ) : null
             }
