@@ -5,6 +5,7 @@ import Page from "@/app/createAttestation/page";
 import {useRouter} from "next/navigation";
 import {useQuery} from "@tanstack/react-query";
 import '@testing-library/jest-dom'
+import {expect} from "@jest/globals";
 
 
 jest.mock('next/navigation');
@@ -58,12 +59,51 @@ describe('createAttestation', () => {
         render(<Page/>);
 
         // assert
-        // Check if the form has all the fields
-        const formField = screen.getByLabelText('Recipient Address');
+        expect(screen.getByLabelText('Recipient Address')).toBeInTheDocument();
+        expect(screen.getByLabelText('University Name')).toBeInTheDocument();
+        expect(screen.getByLabelText('Faculty Name')).toBeInTheDocument();
+        expect(screen.getByLabelText('Study Mode')).toBeInTheDocument();
+        expect(screen.getByLabelText('Type of Degree')).toBeInTheDocument();
+        expect(screen.getByLabelText('Academic Year')).toBeInTheDocument();
+        expect(screen.getByLabelText('Programme')).toBeInTheDocument();
 
-        expect(formField).toBeInTheDocument();
+    });
+    it('should render a submit button', () => {
+        // arrange
+        (useRouter as jest.Mock).mockReturnValue({
+            push: jest.fn()
+        });
 
+        (useQuery as jest.Mock).mockReturnValue({
+            data: true
+        });
 
+        // act
+        render(<Page/>);
+
+        // assert
+        expect(screen.getByRole('button')).toBeInTheDocument();
+        expect(screen.getByRole('button')).toHaveTextContent('Create Attestation');
+    });
+    it('should render InputFile component', () => {
+        // arrange
+        (useRouter as jest.Mock).mockReturnValue({
+            push: jest.fn()
+        });
+
+        (useQuery as jest.Mock).mockReturnValue({
+            data: true
+        });
+
+        // act
+        render(<Page/>);
+
+        // assert
+        // const controller = screen.getByRole('form').querySelector('Controller[name="fileHash"]');
+        // expect(controller).toBeInTheDocument();
+
+        const inputFile = screen.getByLabelText('Document');
+        expect(inputFile).toBeInTheDocument();
     });
 
 
