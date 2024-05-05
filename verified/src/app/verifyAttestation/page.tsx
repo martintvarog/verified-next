@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useQuery} from "@tanstack/react-query";
 import attestationService from "@/services/attestationService";
 import {Input} from "@/components/ui/input";
@@ -9,7 +9,7 @@ import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
 import {AlertCircle} from "lucide-react";
 import {InputFile} from "@/components/inputFile";
 import VerificationStatus from "@/components/verificationStatus";
-import {useRouter, useSearchParams} from "next/navigation";
+import {useSearchParams} from "next/navigation";
 
 
 const VerifyAttestationPage = () => {
@@ -28,7 +28,7 @@ const VerifyAttestationPage = () => {
         if (uid) {
             setTransactionUID(uid);
         }
-    }, [location.search, searchParams]);
+    }, [searchParams]);
 
     useQuery({
         queryKey: ['attestation', transactionUID],
@@ -65,15 +65,18 @@ const VerifyAttestationPage = () => {
         setDisplayHeader(true);
         setTimeout(() => {
             setDisplayHeader(false);
-        }, 2000);
+        }, 1000);
 
     }, [])
 
     return (
         <div className={'m-5 w-full center'}>
-            {displayHeader ? (
-                    <h1 className={displayHeader ? "text-indigo-100 text-center font-bold text-5xl mb-8  fade" : ""}>
-                        Verify Attestation</h1>) :
+            {displayHeader ?
+
+                <h1 className={"text-indigo-100 text-center font-bold text-5xl mb-8"}>Verify Attestation</h1>
+
+                :
+
                 displayAlert ? (<Alert variant="destructive" className={displayAlert ? "fade max-w-6xl w-full" : ""}>
                         <AlertCircle className="h-4 w-4"/>
                         <AlertTitle>Error</AlertTitle>
@@ -96,7 +99,7 @@ const VerifyAttestationPage = () => {
                         </div>
                     ) : transactionUID && !attestationToVerifyFileHash ? (
                         <div>
-                            <InputFile  onChange={setAttestationToVerifyFileHash}/>
+                            <InputFile onChange={setAttestationToVerifyFileHash}/>
                         </div>
                     ) : (
                         existingFileHash && attestationToVerifyFileHash) ?
