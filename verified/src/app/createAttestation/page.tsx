@@ -78,9 +78,11 @@ const Page = () => {
 
     useEffect(() => {
         if (searchParams.has('isWalletConnected')) {
+            console.log('isWalletConnectedAfterRedirect', searchParams.get('isWalletConnected'));
             setIsWalletConnectedAfterRedirect(searchParams.get('isWalletConnected') === 'true');
         }
-        if (isWalletConnected === false && !isWalletConnectedAfterRedirect) {
+        if (isWalletConnected === false && !isWalletConnectedAfterRedirect && !searchParams.has('isWalletConnected')) {
+            console.log('redirecting to connect wallet');
             router.push('/connectWallet');
         }
     }, [isWalletConnected, isWalletConnectedAfterRedirect, router, searchParams])
@@ -89,16 +91,8 @@ const Page = () => {
         if (transactionUID) router.push(`/viewAttestation?transactionUID=${transactionUID}`);
     }, [transactionUID, router])
 
-    useEffect(() => {
-        if (form.formState.isSubmitting) Spinner(true);
-    }, [form.formState.isSubmitting])
-
-    // if (transactionUID) return router.push(`/viewAttestation?transactionUID=${transactionUID}`);
-    //
-    // if (form.formState.isSubmitting)
-    //     return Spinner(true);
-    //
-    // if (isWalletConnected === false) return router.push('/connectWallet');
+    if (form.formState.isSubmitting)
+        return Spinner(true);
 
     return (
         <div className='m-5 w-full justify-center  max-w-6xl'>
