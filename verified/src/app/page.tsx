@@ -58,18 +58,18 @@ export default function Home() {
                         {Array.from({length: 4}).map((_, index) => (
                             <CarouselItem key={index}>
                                 <div className="p-1">
-                                    <Card className="bg-gray-600">
+                                    <Card className="bg-slate-900">
                                         <CardContent className="flex aspect-square items-center justify-center p-6">
                                             <span className="text-4xl font-semibold"></span>
-                                            <p className="text-xl font-semibold ml-2">{cardTexts[index]}</p>
+                                            <p className="text-slate-50 text-xl font-medium ml-2">{cardTexts[index]}</p>
                                         </CardContent>
                                     </Card>
                                 </div>
                             </CarouselItem>
                         ))}
                     </CarouselContent>
-                    <CarouselPrevious className="bg-gray-700"/>
-                    <CarouselNext className="bg-gray-700"/>
+                    <CarouselPrevious className="bg-slate-900"/>
+                    <CarouselNext className="bg-slate-900"/>
                 </Carousel>
             </div>
 
