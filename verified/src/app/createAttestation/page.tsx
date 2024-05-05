@@ -94,7 +94,7 @@ const Page = () => {
     // if (isWalletConnected === false) return router.push('/connectWallet');
 
     return (
-        <div>
+        <div className='m-5 w-full justify-center  max-w-6xl'>
             <div>
 
                 {
@@ -102,7 +102,7 @@ const Page = () => {
                     // <Alert severity="success" variant={"filled"} className={alertShow ? "fade" : ""}>Wallet is connected.</Alert> :
 
                     <Form {...form}>
-                        <form onSubmit={handleSubmit} className="space-y-8 " name="form">
+                        <form onSubmit={handleSubmit} className="space-y-6 w-full" name="form">
                             <FormField
                                 control={form.control}
                                 name="recipientAddress"
