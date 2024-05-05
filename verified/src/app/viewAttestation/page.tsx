@@ -36,7 +36,7 @@ const ViewAttestationPage = () => {
         setDisplayHeader(true);
         setTimeout(() => {
             setDisplayHeader(false);
-        }, 2000);
+        }, 1000);
         const uid = searchParams.get('transactionUID');
         if (uid) {
             setTransactionUID(uid);
@@ -117,9 +117,9 @@ const ViewAttestationPage = () => {
     return (
         <div className={'m-5 w-full justify-center '}>
             {displayHeader ? (
-                    <h1 className={displayHeader ? "text-indigo-100 text-center font-bold text-5xl mb-8  fade" : ""}>
+                    <h1 className="text-indigo-100 text-center font-bold text-5xl mb-8">
                         View Attestation</h1>) :
-                displayAlert ? (<Alert variant="destructive" className={displayAlert ? "fade max-w-6xl w-full" : ""}>
+                displayAlert ? (<Alert variant="destructive" className="max-w-6xl w-full">
                         <AlertCircle className="h-4 w-4"/>
                         <AlertTitle>Error</AlertTitle>
                         <AlertDescription>
@@ -144,7 +144,7 @@ const ViewAttestationPage = () => {
                         attestation && (
 
                             <Form {...form}>
-                                <form className="space-y-6">
+                                <form className="space-y-6 w-full">
                                     <FormField
                                         control={form.control}
                                         name="recipientAddress"
