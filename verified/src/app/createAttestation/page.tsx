@@ -95,169 +95,162 @@ const Page = () => {
 
     return (
         <div className='m-5 w-full justify-center  max-w-6xl'>
-            <div>
 
-                {
-                    // isWalletConnected && alertShow ?
-                    // <Alert severity="success" variant={"filled"} className={alertShow ? "fade" : ""}>Wallet is connected.</Alert> :
+            <Form {...form}>
+                <form onSubmit={handleSubmit} className="space-y-6 w-full" name="form">
+                    <FormField
+                        control={form.control}
+                        name="recipientAddress"
+                        render={({field}) => (
+                            <FormItem>
+                                <FormLabel>Recipient Address</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        className="text-center text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md"
+                                        type="text"
+                                        placeholder="0x..." {...field}/>
+                                </FormControl>
+                                <FormDescription>
+                                    The address of the recipient
+                                </FormDescription>
+                                <FormMessage/>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="universityName"
+                        render={({field}) => (
+                            <FormItem>
+                                <FormLabel>University Name</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        className="text-center text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md"
+                                        placeholder="University of Cambridge" {...field}
+                                        type="text"/>
+                                </FormControl>
+                                <FormDescription>
+                                    The name of the university
+                                </FormDescription>
+                                <FormMessage/>
+                            </FormItem>
+                        )}
+                    />
 
-                    <Form {...form}>
-                        <form onSubmit={handleSubmit} className="space-y-6 w-full" name="form">
-                            <FormField
-                                control={form.control}
-                                name="recipientAddress"
-                                render={({field}) => (
-                                    <FormItem>
-                                        <FormLabel>Recipient Address</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                className="text-center text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md"
-                                                type="text"
-                                                placeholder="0x..." {...field}/>
-                                        </FormControl>
-                                        <FormDescription>
-                                            The address of the recipient
-                                        </FormDescription>
-                                        <FormMessage/>
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="universityName"
-                                render={({field}) => (
-                                    <FormItem>
-                                        <FormLabel>University Name</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                className="text-center text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md"
-                                                placeholder="University of Cambridge" {...field}
-                                                type="text"/>
-                                        </FormControl>
-                                        <FormDescription>
-                                            The name of the university
-                                        </FormDescription>
-                                        <FormMessage/>
-                                    </FormItem>
-                                )}
-                            />
+                    <FormField
+                        control={form.control}
+                        name="facultyName"
+                        render={({field}) => (
+                            <FormItem>
+                                <FormLabel>Faculty Name</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        className="text-center text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md"
+                                        type="text"
+                                        placeholder="Faculty of Computer Science " {...field}/>
+                                </FormControl>
+                                <FormDescription>
+                                    The name of the faculty
+                                </FormDescription>
+                                <FormMessage/>
+                            </FormItem>
+                        )}
 
-                            <FormField
-                                control={form.control}
-                                name="facultyName"
-                                render={({field}) => (
-                                    <FormItem>
-                                        <FormLabel>Faculty Name</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                className="text-center text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md"
-                                                type="text"
-                                                placeholder="Faculty of Computer Science " {...field}/>
-                                        </FormControl>
-                                        <FormDescription>
-                                            The name of the faculty
-                                        </FormDescription>
-                                        <FormMessage/>
-                                    </FormItem>
-                                )}
+                    />
 
-                            />
+                    <FormField
+                        control={form.control}
+                        name="modeName"
+                        render={({field}) => (
+                            <FormItem>
+                                <FormLabel>Study Mode</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        className="text-center text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md"
+                                        placeholder="Full-time" {...field}/>
+                                </FormControl>
+                                <FormDescription>
+                                    The mode of study
+                                </FormDescription>
+                                <FormMessage/>
+                            </FormItem>
+                        )}
 
-                            <FormField
-                                control={form.control}
-                                name="modeName"
-                                render={({field}) => (
-                                    <FormItem>
-                                        <FormLabel>Study Mode</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                className="text-center text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md"
-                                                placeholder="Full-time" {...field}/>
-                                        </FormControl>
-                                        <FormDescription>
-                                            The mode of study
-                                        </FormDescription>
-                                        <FormMessage/>
-                                    </FormItem>
-                                )}
+                    />
 
-                            />
+                    <FormField
+                        control={form.control}
+                        name="typeName"
+                        render={({field}) => (
+                            <FormItem>
+                                <FormLabel>Type of Degree</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        className="text-center text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md"
+                                        placeholder="Bachelor, Master, PhD, etc." {...field}/>
+                                </FormControl>
+                                <FormDescription>
+                                    The type of degree
+                                </FormDescription>
+                                <FormMessage/>
+                            </FormItem>
+                        )}
 
-                            <FormField
-                                control={form.control}
-                                name="typeName"
-                                render={({field}) => (
-                                    <FormItem>
-                                        <FormLabel>Type of Degree</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                className="text-center text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md"
-                                                placeholder="Bachelor, Master, PhD, etc." {...field}/>
-                                        </FormControl>
-                                        <FormDescription>
-                                            The type of degree
-                                        </FormDescription>
-                                        <FormMessage/>
-                                    </FormItem>
-                                )}
+                    />
 
-                            />
+                    <FormField
+                        control={form.control}
+                        name="academicYear"
+                        render={({field}) => (
+                            <FormItem>
+                                <FormLabel>Academic Year</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        className="text-center text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md"
+                                        placeholder="2023/2024" {...field}/>
+                                </FormControl>
+                                <FormDescription>
+                                    The academic year
+                                </FormDescription>
+                                <FormMessage/>
+                            </FormItem>
+                        )}
 
-                            <FormField
-                                control={form.control}
-                                name="academicYear"
-                                render={({field}) => (
-                                    <FormItem>
-                                        <FormLabel>Academic Year</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                className="text-center text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md"
-                                                placeholder="2023/2024" {...field}/>
-                                        </FormControl>
-                                        <FormDescription>
-                                            The academic year
-                                        </FormDescription>
-                                        <FormMessage/>
-                                    </FormItem>
-                                )}
+                    />
 
-                            />
+                    <FormField
+                        control={form.control}
+                        name="programmeName"
+                        render={({field}) => (
+                            <FormItem>
+                                <FormLabel>Programme</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        className="text-center text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md"
+                                        placeholder="Computer Science" {...field}/>
+                                </FormControl>
+                                <FormDescription>
+                                    The name of the programme
+                                </FormDescription>
+                                <FormMessage/>
+                            </FormItem>
+                        )}
 
-                            <FormField
-                                control={form.control}
-                                name="programmeName"
-                                render={({field}) => (
-                                    <FormItem>
-                                        <FormLabel>Programme</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                className="text-center text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md"
-                                                placeholder="Computer Science" {...field}/>
-                                        </FormControl>
-                                        <FormDescription>
-                                            The name of the programme
-                                        </FormDescription>
-                                        <FormMessage/>
-                                    </FormItem>
-                                )}
-
-                            />
+                    />
 
 
-                            <Controller
-                                name="fileHash"
-                                control={form.control}
-                                render={({field: {ref: _, ...field}}) => (
-                                    <InputFile {...field}/>
-                                )}
-                            />
+                    <Controller
+                        name="fileHash"
+                        control={form.control}
+                        render={({field: {ref: _, ...field}}) => (
+                            <InputFile {...field}/>
+                        )}
+                    />
 
-                            <Button className={'w-full'} type="submit">Create Attestation</Button>
-                        </form>
+                    <Button className={'w-full'} type="submit">Create Attestation</Button>
+                </form>
 
-                    </Form>
-                }
-            </div>
+            </Form>
 
         </div>
     );
