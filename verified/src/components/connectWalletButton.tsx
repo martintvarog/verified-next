@@ -7,10 +7,13 @@ const ConnectWalletButton = () => {
    const router = useRouter();
 
     const connectWallet = async () => {
-        const connected = await WalletService.connectWallet();
-        if (connected) {
-            router.push('/createAttestation');
-        }
+        console.log('verifying wallet');
+        await WalletService.connectWallet().then((connected) => {
+            console.log('wallet is: ', connected);
+            if (connected) {
+                router.push('/createAttestation?isWalletConnected=true');
+            }
+        });
     };
 
     return (

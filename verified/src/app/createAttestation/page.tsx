@@ -21,11 +21,14 @@ import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {useQuery} from "@tanstack/react-query";
 import {mapValues} from "lodash"
-import {useRouter} from "next/navigation";
+import {useRouter, useSearchParams} from "next/navigation";
 
 const Page = () => {
     const [transactionUID, setTransactionUID] = useState('');
     const router = useRouter();
+    const [isWalletConnectedAfterRedirect, setIsWalletConnectedAfterRedirect] = useState(false);
+
+    const searchParams = useSearchParams();
 
     const {data: isWalletConnected} = useQuery({
         queryKey: ['isWalletConnected'],
@@ -73,10 +76,14 @@ const Page = () => {
             setTransactionUID(transactionUID);
         });
 
-
     useEffect(() => {
-        if (isWalletConnected === false) router.push('/connectWallet');
-    }, [isWalletConnected, router])
+        if (searchParams.has('isWalletConnected')) {
+            setIsWalletConnectedAfterRedirect(searchParams.get('isWalletConnected') === 'true');
+        }
+        if (isWalletConnected === false && !isWalletConnectedAfterRedirect) {
+            router.push('/connectWallet');
+        }
+    }, [isWalletConnected, isWalletConnectedAfterRedirect, router, searchParams])
 
     useEffect(() => {
         if (transactionUID) router.push(`/viewAttestation?transactionUID=${transactionUID}`);
