@@ -26,6 +26,8 @@ describe('ViewAttestation', () => {
         // act
         render(<Page/>);
 
+        await new Promise((resolve) => setTimeout(resolve, 3500));
+
         // assert
         expect(screen.getByText('Enter Identifier')).toBeInTheDocument();
 
