@@ -2,25 +2,34 @@
 import {render, screen} from '@testing-library/react';
 import React from "react";
 import Page from "@/app/createAttestation/page";
-import {useRouter} from "next/navigation";
+import {useRouter, useSearchParams} from "next/navigation";
 import {useQuery} from "@tanstack/react-query";
 import '@testing-library/jest-dom'
 import {expect} from "@jest/globals";
+import WalletService from "@/services/walletService";
 
 
 jest.mock('next/navigation');
 jest.mock("@tanstack/react-query");
+jest.mock("verified/src/services/walletService");
 
 describe('createAttestation', () => {
     it('should render a form', () => {
         // arrange
         (useRouter as jest.Mock).mockReturnValue({
-            push: jest.fn()
+            push: jest.fn(),
+        });
+
+        (useSearchParams as jest.Mock).mockReturnValue({
+            has: jest.fn().mockReturnValue(true),
+            get: jest.fn().mockReturnValue(true)
         });
 
         (useQuery as jest.Mock).mockReturnValue({
             data: jest.fn()
         });
+
+        (WalletService.connectWallet as jest.Mock).mockReturnValue(true);
 
         // act
         render(<Page/>);
@@ -33,6 +42,11 @@ describe('createAttestation', () => {
         // arrange
         (useRouter as jest.Mock).mockReturnValue({
             push: jest.fn().mockReturnValue('/connectWallet')
+        });
+
+        (useSearchParams as jest.Mock).mockReturnValue({
+            has: jest.fn().mockReturnValue(false),
+            get: jest.fn().mockReturnValue(false)
         });
 
         (useQuery as jest.Mock).mockReturnValue({
@@ -49,6 +63,11 @@ describe('createAttestation', () => {
         // arrange
         (useRouter as jest.Mock).mockReturnValue({
             push: jest.fn()
+        });
+
+        (useSearchParams as jest.Mock).mockReturnValue({
+            has: jest.fn(),
+            get: jest.fn()
         });
 
         (useQuery as jest.Mock).mockReturnValue({
@@ -74,6 +93,11 @@ describe('createAttestation', () => {
             push: jest.fn()
         });
 
+        (useSearchParams as jest.Mock).mockReturnValue({
+            has: jest.fn(),
+            get: jest.fn()
+        });
+
         (useQuery as jest.Mock).mockReturnValue({
             data: true
         });
@@ -89,6 +113,11 @@ describe('createAttestation', () => {
         // arrange
         (useRouter as jest.Mock).mockReturnValue({
             push: jest.fn()
+        });
+
+        (useSearchParams as jest.Mock).mockReturnValue({
+            has: jest.fn(),
+            get: jest.fn()
         });
 
         (useQuery as jest.Mock).mockReturnValue({
