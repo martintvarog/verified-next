@@ -1,41 +1,8 @@
-//import {FileUploader} from "react-drag-drop-files";
-//import {Dispatch, SetStateAction, useState} from "react";
 import {useState} from "react";
 import {fileToByteArray, createHash} from "@/utils/fileHelpers";
 import {Input} from "@/components/ui/input";
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
 import {AlertCircle} from "lucide-react";
-
-
-// const fileTypes = ["PDF"];
-
-// export function DragDrop({setFileHash}: { setFileHash: Dispatch<SetStateAction<string>> }) {
-//     const [uploadedFileName, setUploadedFileName] = useState<string | undefined>(undefined);
-//
-//     const handleChange = (file: File) => {
-//         setUploadedFileName(file.name);
-//         fileToByteArray(file).then((byteArray) => {
-//             createHash(byteArray).then((hash) => {
-//                 setFileHash(hash);
-//             });
-//         })
-//     };
-//
-//     return (
-//         <div className="App">
-//             <FileUploader
-//                 required={true}
-//                 multiple={false}
-//                 handleChange={handleChange}
-//                 name="file"
-//                 types={fileTypes}
-//             />
-//             <br/>
-//             {uploadedFileName ? <p>Uploaded file name: {uploadedFileName}</p> : null}
-//
-//         </div>
-//     );
-// }
 
 type Props = {
     onChange: (hash: string) => void;
