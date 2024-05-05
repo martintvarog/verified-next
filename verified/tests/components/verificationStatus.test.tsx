@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { render } from '@testing-library/react';
-import VerificationStatus from '../src/components/verificationStatus';
+import VerificationStatus from '@/components/verificationStatus';
 import '@testing-library/jest-dom'
 
 
