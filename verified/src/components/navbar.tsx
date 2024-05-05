@@ -1,23 +1,24 @@
 import Link from 'next/link';
 import React from 'react';
-import { AppBar, Button, Toolbar } from '@mui/material';
+import { AppBar, Toolbar } from '@mui/material';
+import {Button} from "@/components/ui/button";
 
 const NavBar: React.FC = () => {
     return (
-        <AppBar position="static" style={{ backgroundColor: '#242424' }}>
-            <Toolbar style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <AppBar position="static"  style={{ backgroundColor: '#242424' }} >
+            <Toolbar className="justify-center items-center flex">
                 <Link href={"createAttestation"}>
-                    <Button color="inherit" style={{ fontWeight: 500, color: '#646cff', textDecoration: 'none' }}>
+                    <Button className="mr-4">
                         Create Attestation
                     </Button>
                 </Link>
                 <Link href={"viewAttestation"}>
-                    <Button color="inherit" style={{ fontWeight: 500, color: '#646cff', textDecoration: 'none', marginLeft: '1rem' }}>
+                    <Button className="mr-4">
                         View Attestation
                     </Button>
                 </Link>
                 <Link href={"verifyAttestation"}>
-                    <Button color="inherit" style={{ fontWeight: 500, color: '#646cff', textDecoration: 'none', marginLeft: '1rem' }}>
+                    <Button className="mr-4">
                         Verify Attestation
                     </Button>
                 </Link>
