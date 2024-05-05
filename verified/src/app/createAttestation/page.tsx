@@ -1,7 +1,7 @@
 'use client'
 
 import WalletService from "@/services/walletService";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import attestationService from "@/services/attestationService";
 import Spinner from "@/components/spinner";
 import {InputFile} from "@/components/inputFile";
@@ -20,7 +20,7 @@ import {
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {useQuery} from "@tanstack/react-query";
-import { mapValues } from "lodash"
+import {mapValues} from "lodash"
 import {useRouter} from "next/navigation";
 
 const Page = () => {
@@ -74,17 +74,27 @@ const Page = () => {
         });
 
 
-    if (transactionUID) return router.push(`/viewAttestation?transactionUID=${transactionUID}`);
+    useEffect(() => {
+        if (isWalletConnected === false) router.push('/connectWallet');
+    }, [isWalletConnected, router])
 
-    if (form.formState.isSubmitting)
-        return Spinner(true);
+    useEffect(() => {
+        if (transactionUID) router.push(`/viewAttestation?transactionUID=${transactionUID}`);
+    }, [transactionUID, router])
 
-    if (isWalletConnected === false) return router.push('/connectWallet');
+    useEffect(() => {
+        if (form.formState.isSubmitting) Spinner(true);
+    }, [form.formState.isSubmitting])
+
+    // if (transactionUID) return router.push(`/viewAttestation?transactionUID=${transactionUID}`);
+    //
+    // if (form.formState.isSubmitting)
+    //     return Spinner(true);
+    //
+    // if (isWalletConnected === false) return router.push('/connectWallet');
 
     return (
         <div>
-
-
             <div>
 
                 {
@@ -92,7 +102,7 @@ const Page = () => {
                     // <Alert severity="success" variant={"filled"} className={alertShow ? "fade" : ""}>Wallet is connected.</Alert> :
 
                     <Form {...form}>
-                        <form onSubmit={handleSubmit} className="space-y-8 ">
+                        <form onSubmit={handleSubmit} className="space-y-8 " name="form">
                             <FormField
                                 control={form.control}
                                 name="recipientAddress"
@@ -237,7 +247,7 @@ const Page = () => {
                             <Controller
                                 name="fileHash"
                                 control={form.control}
-                                render={({field: {ref: _,...field}}) => (
+                                render={({field: {ref: _, ...field}}) => (
                                     <InputFile {...field}/>
                                 )}
                             />
