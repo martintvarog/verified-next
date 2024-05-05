@@ -107,10 +107,6 @@ const mapAttestationData = (attestation: Attestation, decodedData: SchemaDecoded
     };
 }
 
-const getEasInstance = async (): Promise<EAS> => {
-    return new EAS(EAS_CONTRACT_ADDRESS_SEPOLIA);
-}
-
 const AttestationService = {
     createAttestation,
     getAttestation,
