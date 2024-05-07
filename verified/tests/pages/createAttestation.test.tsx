@@ -14,7 +14,7 @@ jest.mock("@tanstack/react-query");
 jest.mock("verified/src/services/walletService");
 
 describe('createAttestation', () => {
-    it('should render a form', () => {
+    it('should render a form', async () => {
         // arrange
         (useRouter as jest.Mock).mockReturnValue({
             push: jest.fn(),
@@ -33,6 +33,8 @@ describe('createAttestation', () => {
 
         // act
         render(<Page/>);
+
+        await new Promise((resolve) => setTimeout(resolve, 3500));
 
         // assert
         const formElement = screen.getByRole('form');
@@ -59,7 +61,7 @@ describe('createAttestation', () => {
         // assert
         expect(useRouter().push).toHaveBeenCalledWith('/connectWallet');
     });
-    it('should render a form with all attestation fields', () => {
+    it('should render a form with all attestation fields', async () => {
         // arrange
         (useRouter as jest.Mock).mockReturnValue({
             push: jest.fn()
@@ -76,6 +78,8 @@ describe('createAttestation', () => {
 
         // act
         render(<Page/>);
+
+        await new Promise((resolve) => setTimeout(resolve, 3500));
 
         // assert
         expect(screen.getByLabelText('Recipient Address')).toBeInTheDocument();
@@ -87,7 +91,7 @@ describe('createAttestation', () => {
         expect(screen.getByLabelText('Programme')).toBeInTheDocument();
 
     });
-    it('should render a submit button', () => {
+    it('should render a submit button', async () => {
         // arrange
         (useRouter as jest.Mock).mockReturnValue({
             push: jest.fn()
@@ -104,12 +108,14 @@ describe('createAttestation', () => {
 
         // act
         render(<Page/>);
+
+        await new Promise((resolve) => setTimeout(resolve, 3500));
 
         // assert
         expect(screen.getByRole('button')).toBeInTheDocument();
         expect(screen.getByRole('button')).toHaveTextContent('Create Attestation');
     });
-    it('should render InputFile component', () => {
+    it('should render InputFile component', async () => {
         // arrange
         (useRouter as jest.Mock).mockReturnValue({
             push: jest.fn()
@@ -126,6 +132,8 @@ describe('createAttestation', () => {
 
         // act
         render(<Page/>);
+
+        await new Promise((resolve) => setTimeout(resolve, 3500));
 
         // assert
         // const controller = screen.getByRole('form').querySelector('Controller[name="fileHash"]');
