@@ -1,7 +1,7 @@
 'use client'
 
 import WalletService from "@/services/walletService";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import attestationService from "@/services/attestationService";
 import Spinner from "@/components/spinner";
 import {InputFile} from "@/components/inputFile";
@@ -27,6 +27,7 @@ const Page = () => {
     const [transactionUID, setTransactionUID] = useState('');
     const router = useRouter();
     const [isWalletConnectedAfterRedirect, setIsWalletConnectedAfterRedirect] = useState(false);
+    const [displayHeader, setDisplayHeader] = useState<boolean>(true);
 
     const searchParams = useSearchParams();
 
@@ -77,6 +78,13 @@ const Page = () => {
         });
 
     useEffect(() => {
+        setDisplayHeader(true);
+        setTimeout(() => {
+            setDisplayHeader(false);
+        }, 1000);
+    }, []);
+
+    useEffect(() => {
         if (searchParams.has('isWalletConnected')) {
             console.log('isWalletConnectedAfterRedirect', searchParams.get('isWalletConnected'));
             setIsWalletConnectedAfterRedirect(searchParams.get('isWalletConnected') === 'true');
@@ -91,11 +99,17 @@ const Page = () => {
         if (transactionUID) router.push(`/viewAttestation?transactionUID=${transactionUID}`);
     }, [transactionUID, router])
 
+
     if (form.formState.isSubmitting)
         return Spinner(true);
 
+
     return (
         <div className='m-5 w-full justify-center  max-w-6xl'>
+
+            {displayHeader ? (
+                        <h1 className="text-indigo-100 text-center font-bold text-5xl mb-8">
+                            Create Attestation</h1>) :
 
             <Form {...form}>
                 <form onSubmit={handleSubmit} className="space-y-6 w-full" name="form">
@@ -252,6 +266,7 @@ const Page = () => {
                 </form>
 
             </Form>
+            }
 
         </div>
     );
