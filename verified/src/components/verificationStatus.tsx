@@ -2,8 +2,8 @@ import { cn } from "@/lib/utils";
 
 
 interface VerificationStatusProps {
-  verified: boolean;
-  className?: string;
+    verified: boolean;
+    className?: string;
 }
 
 const VerificationStatus: React.FC<VerificationStatusProps> = ({ verified, className }) => {

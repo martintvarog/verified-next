@@ -32,33 +32,32 @@ export function InputFile({ onChange, className, name }: Props) {
   const id = useId();
 
   return (
-    <>
-      {displayAlert ? (
-        <Alert
-          variant="destructive"
-          className={cn(displayAlert && "fade", className)}
-        >
-          <AlertCircle className="size-4" />
-          <AlertTitle>Error</AlertTitle>
-          <AlertDescription>
-            Invalid file type. Please upload a PDF file
-          </AlertDescription>
-        </Alert>
-      ) : (
-        <Input
-          id={id}
-          name={name}
-          className={cn(
-            "text-inherit bg-gray-800 block w-full shadow-sm rounded-md",
-            "focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500",
-            className,
-          )}
-          type="file"
-          onChange={(e) => handleChange(e.target.files![0])}
-          accept={"application/pdf"}
-        />
-      )}
-    </>
+      <>
+        {displayAlert ? (
+            <Alert
+                variant="destructive"
+                className={cn(displayAlert && "fade", className)}
+            >
+              <AlertCircle className="size-4" />
+              <AlertTitle>Error</AlertTitle>
+              <AlertDescription>
+                Invalid file type. Please upload a PDF file
+              </AlertDescription>
+            </Alert>
+        ) : (
+            <Input
+                id={id}
+                name={name}
+                className={cn(
+                    "text-inherit bg-gray-800 block w-full shadow-sm rounded-md",
+                    "focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500",
+                    className,
+                )}
+                type="file"
+                onChange={(e) => handleChange(e.target.files![0])}
+                accept={"application/pdf"}
+            />
+        )}
+      </>
   );
 }
-

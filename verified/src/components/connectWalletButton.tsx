@@ -30,16 +30,16 @@ const ConnectWalletButton = ({ className }: Props) => {
     onError: (error) => {
       toast.error(error.message);
     },
-  }) 
+  })
 
   return (
-    <Button
-      onClick={() => { connectWallet() }}
-      className={cn("px-4 py-2 text-lg", className)}
-      loading={walletConnecting}
-    >
-      Connect Wallet
-    </Button>
+      <Button
+          onClick={() => { connectWallet() }}
+          className={cn("px-4 py-2 text-lg", className)}
+          loading={walletConnecting}
+      >
+        Connect Wallet
+      </Button>
   );
 };
 
