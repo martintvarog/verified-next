@@ -10,9 +10,9 @@ const ConnectWalletPage = () => {
   if (isWalletConnected) return redirect(walletConnectedRedirect);
 
   return (
-    <div className="flex flex-col items-center">
-      <ConnectWalletButton />
-    </div>
+      <div className="flex flex-col items-center">
+        <ConnectWalletButton />
+      </div>
   );
 };
 
