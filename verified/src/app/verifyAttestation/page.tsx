@@ -3,60 +3,60 @@
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {useRouter} from "next/navigation";
-import { z } from "zod";
-import { ethereumHashSchema } from "@/utils/ethereumHashSchema";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { mapValues, stubString } from "lodash/fp";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { cn } from "@/lib/utils";
+import {z} from "zod";
+import {ethereumHashSchema} from "@/utils/ethereumHashSchema";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {mapValues, stubString} from "lodash/fp";
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
+import {cn} from "@/lib/utils";
 
 
 const VerifyAttestationPage = () => {
-  const schema = z.object({
-    transactionUID: ethereumHashSchema,
-  });
+    const schema = z.object({
+        transactionUID: ethereumHashSchema,
+    });
 
-  const form = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
-    defaultValues: mapValues(stubString, schema.shape),
-  });
+    const form = useForm<z.infer<typeof schema>>({
+        resolver: zodResolver(schema),
+        defaultValues: mapValues(stubString, schema.shape),
+    });
 
-  const router = useRouter();
-  const submitTransactionUIDForm = form.handleSubmit((data) => {
-    router.push(`/verifyAttestation/${data.transactionUID}`);
-  });
+    const router = useRouter();
+    const submitTransactionUIDForm = form.handleSubmit((data) => {
+        router.push(`/verifyAttestation/${data.transactionUID}`);
+    });
 
-  const isLoading = form.formState.isSubmitting || form.formState.isSubmitSuccessful;
+    const isLoading = form.formState.isSubmitting || form.formState.isSubmitSuccessful;
 
-  return (
-    <Form {...form}>
-      <form onSubmit={submitTransactionUIDForm} className={cn("w-full", isLoading && "pointer-events-none")}>
-        <FormField
-          name="transactionUID"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Transaction UID</FormLabel>
-              <div className="flex space-x-2 justify-center">
-                <FormControl>
-                  <Input
-                    className="text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md"
-                    placeholder="Enter transaction UID..."
-                    {...field}
-                  />
-                </FormControl>
-                <Button type="submit" loading={isLoading}>
-                  Verify Attestation
-                </Button>
-              </div>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </form>
-    </Form>
-  );
+    return (
+        <Form {...form}>
+            <form onSubmit={submitTransactionUIDForm} className={cn("w-full", isLoading && "pointer-events-none")}>
+                <FormField
+                    name="transactionUID"
+                    control={form.control}
+                    render={({field}) => (
+                        <FormItem>
+                            <FormLabel>Transaction UID</FormLabel>
+                            <div className="flex space-x-2 justify-center">
+                                <FormControl>
+                                    <Input
+                                        className="text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md"
+                                        placeholder="Enter transaction UID..."
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <Button type="submit" loading={isLoading}>
+                                    Verify Attestation
+                                </Button>
+                            </div>
+                            <FormMessage/>
+                        </FormItem>
+                    )}
+                />
+            </form>
+        </Form>
+    );
 }
 
 export default VerifyAttestationPage;
