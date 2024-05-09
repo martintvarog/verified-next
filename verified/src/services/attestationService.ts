@@ -1,8 +1,8 @@
 import {Attestation, SchemaDecodedItem, SchemaEncoder} from "@ethereum-attestation-service/eas-sdk";
-import { SCHEMA, SCHEMA_UID} from "@/config/config";
+import {SCHEMA, SCHEMA_UID} from "@/config/config";
 import {AttestationData, AttestationDataView} from "@/types/attestationData";
 import * as EASService from "@/services/easService";
-import { identity } from "lodash/fp";
+import {identity} from "lodash/fp";
 
 
 const Schema = "string University_Name, string Faculty_Name, string Programme_Name, string Type_Name, string Mode_Name, string Academic_Year, string File_Hash";
@@ -23,13 +23,13 @@ export const createAttestation = async (attestationData: AttestationData): Promi
     ]);
 
     const tx = await eas.attest({
-      schema: SCHEMA_UID,
-      data: {
-        recipient: attestationData.recipientAddress,
-        expirationTime: undefined,
-        revocable: false,
-        data: encodedData,
-      },
+        schema: SCHEMA_UID,
+        data: {
+            recipient: attestationData.recipientAddress,
+            expirationTime: undefined,
+            revocable: false,
+            data: encodedData,
+        },
     });
 
     const attestationUID = await tx.wait();
@@ -38,18 +38,18 @@ export const createAttestation = async (attestationData: AttestationData): Promi
 }
 
 export const getAttestation = async (transactionUID: string): Promise<Attestation> => {
-  const eas = await EASService.getEASServer();
-  // Errors as values FTW
-  const attestation = await eas.getAttestation(transactionUID).catch(identity);
+    const eas = await EASService.getEASServer();
+    // Errors as values FTW
+    const attestation = await eas.getAttestation(transactionUID).catch(identity);
 
-  if (attestation instanceof Error) {
-    console.error(attestation);
-    throw new Error("Something went wrong");
-  }
+    if (attestation instanceof Error) {
+        console.error(attestation);
+        throw new Error("Something went wrong");
+    }
 
-  if (!attestation) throw new Error("Attestation not found");
+    if (!attestation) throw new Error("Attestation not found");
 
-  return attestation;
+    return attestation;
 }
 
 const decodeAttestationData = (attestationData: string): SchemaDecodedItem[] => {
@@ -85,6 +85,6 @@ const mapAttestationData = (attestation: Attestation, decodedData: SchemaDecoded
 }
 
 export const parseAttestation = (attestation: Attestation): AttestationDataView => {
-  const decodedSchema = decodeAttestationData(attestation.data);
-  return mapAttestationData(attestation, decodedSchema);
+    const decodedSchema = decodeAttestationData(attestation.data);
+    return mapAttestationData(attestation, decodedSchema);
 };

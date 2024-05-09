@@ -8,7 +8,7 @@ export const getEASClient = async (): Promise<EAS> => {
     const eas = new EAS(EAS_CONTRACT_ADDRESS_SEPOLIA);
 
     if (typeof window.ethereum === "undefined")
-      throw new Error("No ethereum provider found");
+        throw new Error("No ethereum provider found");
 
     const provider = new ethers.BrowserProvider(window.ethereum);
     const signer = await provider.getSigner();
