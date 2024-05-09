@@ -1,18 +1,13 @@
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import * as WalletService from "@/services/walletService";
+import { redirect, usePathname } from "next/navigation"
 
-export const useSetSearchParam = () => {
-  const router = useRouter();
+type Props = {
+  require?: boolean;
+}
+
+export const useWalletConnected = ({ require }: Props = { require: true }) => {
+  const isWalletConnected  = WalletService.isWalletConnected();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  return (key: string, value: string | null) => {
-    const newSearchParams = new URLSearchParams(searchParams.toString());
-    if (value === null) newSearchParams.delete(key);
-    else newSearchParams.set(key, value);
-    return router.push(
-      `${pathname}?${newSearchParams.toString()}` as Parameters<
-        typeof router.push
-      >[0],
-    );
-  };
-};
+  if (isWalletConnected === false && require) return redirect(`/connectWallet?redirect=${pathname}`);
+  return isWalletConnected;
+}
