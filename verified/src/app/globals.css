@@ -1,6 +1,6 @@
 @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
+@tailwind components;
+@tailwind utilities;
 
 
 
@@ -30,8 +30,6 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -76,7 +74,7 @@ button:focus-visible {
 header {
   background-color: #242424;
   width: 100%; /* Set the header width to 100% of the viewport */
-  position: fixed;
+  position: sticky;
   top: 0;
   z-index: 1000;
   left: 0;  /* Align the header to the left edge of the viewport */

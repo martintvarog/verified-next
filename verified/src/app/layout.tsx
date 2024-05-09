@@ -1,12 +1,11 @@
-'use client'
+"use client";
 
-
-import {Inter} from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import NavBar from "@/components/navbar";
 
-const inter = Inter({subsets: ["latin"]});
+const inter = Inter({ subsets: ["latin"] });
 
 // export const metadata: Metadata = {
 //   title: "Create Next App",
@@ -15,22 +14,19 @@ const inter = Inter({subsets: ["latin"]});
 
 const queryClient: QueryClient = new QueryClient();
 
-
-export default function RootLayout({children,}: Readonly<{ children: React.ReactNode; }>) {
-    return (
-        <html lang="en">
-        <QueryClientProvider client={queryClient}>
-            <body className={inter.className + " justify-center m-10 y-5"}>
-            <header className="App-header mt-5">
-                <NavBar/>
-            </header>
-            <div className="space-y-5 mt-20">
-                {children}
-            </div>
-
-
-            </body>
-        </QueryClientProvider>
-        </html>
-    );
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <html lang="en">
+      <QueryClientProvider client={queryClient}>
+        <body className={inter.className}>
+          <header className="sticky top-5">
+            <NavBar />
+          </header>
+          <main className="space-y-5">{children}</main>
+        </body>
+      </QueryClientProvider>
+    </html>
+  );
 }

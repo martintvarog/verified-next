@@ -117,7 +117,7 @@ const ViewAttestationPage = () => {
 
 
     return (
-        <div className='m-5 w-full justify-center  max-w-6xl'>
+        <div className='m-5 w-full justify-center max-w-6xl'>
             {displayHeader ? (
                     <h1 className="text-indigo-100 text-center font-bold text-5xl mb-8">
                         View Attestation</h1>) :
