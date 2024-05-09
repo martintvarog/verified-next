@@ -3,7 +3,6 @@ import {fileToByteArray, createHash} from "@/utils/fileHelpers";
 
 jest.mock('crypto');
 
-
 describe('fileHelpers', () => {
     it('should convert a file to a byte array', async () => {
         const file = new File(['hello'], 'hello.txt', {type: 'text/plain'});
