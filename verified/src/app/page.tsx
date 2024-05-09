@@ -1,8 +1,5 @@
 'use client'
 
-import Image from "next/image";
-import Link from 'next/link';
-
 import * as React from "react"
 
 import {Card, CardContent} from "@/components/ui/card"
@@ -43,53 +40,34 @@ export default function Home() {
     ];
 
     const plugin = React.useRef(
-      Autoplay({ delay: 4000, stopOnInteraction: true })
+        Autoplay({ delay: 4000, stopOnInteraction: true })
     )
 
-  return (
-    <div className="text-white contianer max-w">
-      <Carousel
-        plugins={[plugin.current]}
-        className="w-full max-w-xs mx-auto"
-        onMouseEnter={plugin.current.stop}
-        onMouseLeave={plugin.current.reset}
-      >
-        <CarouselContent>
-          {Array.from({length: 4}, (_, index) => (
-            <CarouselItem key={index}>
-              <div className="p-1">
-                <Card className="bg-slate-900">
-                  <CardContent className="flex aspect-square items-center justify-center p-6">
-                    <span className="text-4xl font-semibold" />
-                    <p className="text-slate-50 text-xl font-medium ml-2">{cardTexts[index]}</p>
-                  </CardContent>
-                </Card>
-              </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious className="bg-slate-900"/>
-        <CarouselNext className="bg-slate-900"/>
-      </Carousel>
-    </div>
-  )
+    return (
+        <div className="text-white contianer max-w">
+            <Carousel
+                plugins={[plugin.current]}
+                className="w-full max-w-xs mx-auto"
+                onMouseEnter={plugin.current.stop}
+                onMouseLeave={plugin.current.reset}
+            >
+                <CarouselContent>
+                    {Array.from({length: 4}, (_, index) => (
+                        <CarouselItem key={index}>
+                            <div className="p-1">
+                                <Card className="bg-slate-900">
+                                    <CardContent className="flex aspect-square items-center justify-center p-6">
+                                        <span className="text-4xl font-semibold" />
+                                        <p className="text-slate-50 text-xl font-medium ml-2">{cardTexts[index]}</p>
+                                    </CardContent>
+                                </Card>
+                            </div>
+                        </CarouselItem>
+                    ))}
+                </CarouselContent>
+                <CarouselPrevious className="bg-slate-900"/>
+                <CarouselNext className="bg-slate-900"/>
+            </Carousel>
+        </div>
+    )
 }
-
-// export default function Home() {
-//     return (
-//         <main className="container">
-//
-//             <h2>Ověřeno.cz/Verified.com</h2>
-//             <button className="button-div">
-//                 <Link href="createAttestation">Create Attestation</Link>
-//             </button>
-//             <button className="button-div">
-//                 <Link href="viewAttestation">View Attestation</Link>
-//             </button>
-//             <button className="button-div">
-//                 <Link href="verifyAttestation">Verify Attestation</Link>
-//             </button>
-//
-//         </main>
-//     );
-// }
