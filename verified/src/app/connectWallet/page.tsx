@@ -10,7 +10,7 @@ const ConnectWalletPage = () => {
   if (isWalletConnected) return redirect(walletConnectedRedirect);
 
   return (
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center" aria-label="connectWallet-test">
         <ConnectWalletButton />
       </div>
   );

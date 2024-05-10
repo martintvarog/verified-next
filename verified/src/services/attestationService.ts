@@ -37,21 +37,6 @@ export const createAttestation = async (attestationData: AttestationData): Promi
     return attestationUID;
 }
 
-export const getAttestation = async (transactionUID: string): Promise<Attestation> => {
-    const eas = await EASService.getEASServer();
-    // Errors as values FTW
-    const attestation = await eas.getAttestation(transactionUID).catch(identity);
-
-    if (attestation instanceof Error) {
-        console.error(attestation);
-        throw new Error("Something went wrong");
-    }
-
-    if (!attestation) throw new Error("Attestation not found");
-
-    return attestation;
-}
-
 const decodeAttestationData = (attestationData: string): SchemaDecodedItem[] => {
     const schemaEncoder = new SchemaEncoder(Schema);
 

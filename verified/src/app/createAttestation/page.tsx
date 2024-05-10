@@ -79,7 +79,7 @@ const Page = () => {
 
     return (
         <Form {...form}>
-            <form onSubmit={handleSubmit} className={cn("space-y-6", isLoading && "pointer-events-none")}>
+            <form onSubmit={handleSubmit} className={cn("space-y-6", isLoading && "pointer-events-none")} aria-label="form-test">
                 <FormField
                     control={form.control}
                     name="recipientAddress"

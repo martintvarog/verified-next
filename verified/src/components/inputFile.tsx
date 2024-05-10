@@ -56,6 +56,7 @@ export function InputFile({ onChange, className, name }: Props) {
                 type="file"
                 onChange={(e) => handleChange(e.target.files![0])}
                 accept={"application/pdf"}
+                aria-label={"Document"}
             />
         )}
       </>
