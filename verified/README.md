@@ -1,36 +1,26 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# VERIFIED
 
-## Getting Started
+This repository hosts the bachelor thesis project focused on leveraging blockchain technology for document verification. The project utilizes a decentralized application (dApp) that integrates the Ethereum Blockchain and the Ethereum Attestation Service (EAS) to ensure secure, transparent, and reliable verification processes.
 
-First, run the development server:
+## Project Structure
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Docs:** Contains all the documentation related to the theoretical background and details of the implementation.
+- **Src:** Stores the source code, including the front-end and back-end Typescript files for the dApp.
+- **Tests:** Includes test scripts to ensure the functionality and security of the application.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+To get this project up and running locally, ensure you have Node.js installed and follow the steps below:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+1. Clone the repository.
+2. Run `npm install` to install all required dependencies.
+3. Setup the necessary environment variables as indicated in the project’s documentation.
+4. Start the application using `npm start dev`.
 
-## Learn More
+## Contribution
 
-To learn more about Next.js, take a look at the following resources:
+Contributions are welcome! Please feel free to submit pull requests or raise issues for bugs and feature requests.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+For licensing information, please refer to university guidelines and the project’s documentation.
