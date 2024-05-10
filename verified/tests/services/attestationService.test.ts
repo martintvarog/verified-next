@@ -1,6 +1,8 @@
 import * as AttestationService from "@/services/attestationService";
 import {afterEach, beforeEach, describe, expect, it} from "@jest/globals";
 import * as EASService from "@/services/easService";
+import {AttestationData} from "@/types/attestationData";
+import {SchemaEncoder} from "@ethereum-attestation-service/eas-sdk";
 
 jest.mock('ethers');
 jest.mock('verified/src/services/easService');
@@ -16,22 +18,40 @@ describe('attestationService', () => {
         jest.clearAllMocks();
     });
 
-    it('should call getAttestation', async () => {
+    it('should create attestation', async () => {
         // arrange
-        const transactionUID = 'transactionUID';
-        const expected = {
-            transactionUID,
-            data: 'data'
+        const attestationData: AttestationData = {
+            universityName: "universityName",
+            facultyName: "facultyName",
+            programmeName: "programmeName",
+            typeName: "typeName",
+            modeName: "modeName",
+            academicYear: "academicYear",
+            fileHash: "fileHash",
+            recipientAddress: "recipientAddress"
         };
 
-        (EASService.getEASServer as jest.Mock).mockResolvedValue({
-            getAttestation: jest.fn().mockResolvedValue(expected)
+        const schemaEncoder = new SchemaEncoder("schema");
+        const encodedData = schemaEncoder.encodeData([
+            {name: "University_Name", value: attestationData.universityName, type: "string"},
+            {name: "Faculty_Name", value: attestationData.facultyName, type: "string"},
+            {name: "Programme_Name", value: attestationData.programmeName, type: "string"},
+            {name: "Type_Name", value: attestationData.typeName, type: "string"},
+            {name: "Mode_Name", value: attestationData.modeName, type: "string"},
+            {name: "Academic_Year", value: attestationData.academicYear, type: "string"},
+            {name: "File_Hash", value: attestationData.fileHash, type: "string"}
+        ]);
+
+        (EASService.getEASClient as jest.Mock).mockResolvedValue({
+            attest: jest.fn().mockResolvedValue({
+                wait: jest.fn().mockResolvedValue("attestationUID")
+            })
         });
 
         // act
-        const result = await AttestationService.getAttestation(transactionUID);
+        const result = await AttestationService.createAttestation(attestationData);
 
         // assert
-        expect(result).toEqual(expected);
+        expect(result).toBe("attestationUID");
     });
 });
