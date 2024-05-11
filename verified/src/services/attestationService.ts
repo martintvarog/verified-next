@@ -1,8 +1,7 @@
 import {Attestation, SchemaDecodedItem, SchemaEncoder} from "@ethereum-attestation-service/eas-sdk";
-import {SCHEMA, SCHEMA_UID} from "@/config/config";
+import {SCHEMA, SCHEMA_NAME_DICTIONARY, SCHEMA_UID} from "@/config/config";
 import {AttestationData, AttestationDataView} from "@/types/attestationData";
 import * as EASService from "@/services/easService";
-import {identity} from "lodash/fp";
 
 
 const Schema = "string University_Name, string Faculty_Name, string Programme_Name, string Type_Name, string Mode_Name, string Academic_Year, string File_Hash";
@@ -59,6 +58,7 @@ const mapAttestationData = (attestation: Attestation, decodedData: SchemaDecoded
         schema: attestation!.schema,
         time: dateString,
         uid: attestation!.uid,
+        schemaName: SCHEMA_NAME_DICTIONARY[attestation!.schema] || "Unknown",
         universityName: decodedData?.find((item) => item.name === "University_Name")?.value.value.toString() || "",
         facultyName: decodedData?.find((item) => item.name === "Faculty_Name")?.value.value.toString() || "",
         modeName: decodedData?.find((item) => item.name === "Mode_Name")?.value.value.toString() || "",

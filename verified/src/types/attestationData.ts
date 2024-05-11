@@ -10,6 +10,7 @@ type AttestationData = {
 };
 
 type AttestationDataView = {
+    schemaName: string, // The name of the schema
     uid: string, // The unique identifier of the attestation
     schema: string, // The schema of the attestation
     time: string, // The timestamp of the attestation

@@ -104,6 +104,25 @@ const AttestationViewPage = ({params: {attestationUID}}: PageProps) => {
                     />
                     <FormField
                         control={attestationForm.control}
+                        name="schemaName"
+                        render={({field}) => (
+                            <FormItem>
+                                <FormLabel>Schema name</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        className="text-white bg-gray-800 focus:bg-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm rounded-md text-center"
+                                        readOnly={true}
+                                        placeholder="shadcn"
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormDescription>The name of the schema</FormDescription>
+                                <FormMessage/>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={attestationForm.control}
                         name="universityName"
                         render={({field}) => (
                             <FormItem>
