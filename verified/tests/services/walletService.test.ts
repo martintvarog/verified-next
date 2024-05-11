@@ -44,7 +44,7 @@ describe("WalletService", () => {
       const connectThatThrows = WalletService.connectWallet;
 
       // assert
-      expect(connectThatThrows()).rejects.toThrow();
+      await expect(connectThatThrows()).rejects.toThrow();
     });
 
     it("throws when wallet fails to connect", async () => {
