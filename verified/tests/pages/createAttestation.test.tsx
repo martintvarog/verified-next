@@ -41,7 +41,6 @@ describe("createAttestation", () => {
     });
     it("should redirect to /connectWallet if wallet is not connected", () => {
         // arrange
-        debugger;
         (useSearchParams as jest.Mock).mockReturnValue({
             has: jest.fn().mockReturnValue(false),
             get: jest.fn().mockReturnValue(false),
