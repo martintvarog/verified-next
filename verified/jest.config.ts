@@ -12,6 +12,12 @@ const config: Config = {
   testEnvironment: 'jsdom',
   // Add more setup options before each test is run
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  reporters: [
+    "default",
+    ["./node_modules/jest-html-reporter", {
+      "pageTitle": "Testing Report",
+    }]
+  ]
 }
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
